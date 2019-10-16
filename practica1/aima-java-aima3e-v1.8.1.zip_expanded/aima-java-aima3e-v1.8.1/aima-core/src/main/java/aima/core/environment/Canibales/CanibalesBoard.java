@@ -52,74 +52,102 @@ public class CanibalesBoard {
 	// Se asume que estos metodos solo se llamaran despues de la comprobacion
 	// necesaria
 	public void mover1C() {
-		int[] new_state = this.getState();
-		new_state[0] -= 1;
-		new_state[3] += 1;
-		new_state[2] = new_state[2] == 1 ? 0 : 1;
-		this.state = new_state;
+		if (this.state[2] == 0) {
+			this.state[0] -= 1;
+			this.state[3] += 1;
+		} else {
+			this.state[0] += 1;
+			this.state[3] -= 1;
+		}
+		this.state[2] = this.state[2] == 1 ? 0 : 1;
 	}
 
 	public void mover2C() {
-		int[] new_state = this.getState();
-		new_state[0] -= 2;
-		new_state[3] += 2;
-		new_state[2] = new_state[2] == 1 ? 0 : 1;
-		this.state = new_state;
+		if (this.state[2] == 0) {
+			this.state[0] -= 2;
+			this.state[3] += 2;
+		} else {
+			this.state[0] += 2;
+			this.state[3] -= 2;
+		}
+		this.state[2] = this.state[2] == 1 ? 0 : 1;
 	}
 
 	public void mover1M() {
-		int[] new_state = this.getState();
-		new_state[1] -= 1;
-		new_state[4] += 1;
-		new_state[2] = new_state[2] == 1 ? 0 : 1;
-		this.state = new_state;
+		if (this.state[2] == 0) {
+			this.state[1] -= 1;
+			this.state[4] += 1;
+		} else {
+			this.state[1] += 1;
+			this.state[4] -= 1;
+		}
+		this.state[2] = this.state[2] == 1 ? 0 : 1;
 	}
 
 	public void mover2M() {
-		int[] new_state = this.getState();
-		new_state[1] -= 2;
-		new_state[4] += 2;
-		new_state[2] = new_state[2] == 1 ? 0 : 1;
-		this.state = new_state;
+		if (this.state[2] == 0) {
+			this.state[1] -= 2;
+			this.state[4] += 2;
+		} else {
+			this.state[1] += 2;
+			this.state[4] -= 2;
+		}
+		this.state[2] = this.state[2] == 1 ? 0 : 1;
 	}
 
 	public void mover1M1C() {
-		int[] new_state = this.getState();
-		new_state[0] -= 1;
-		new_state[1] -= 1;
-		new_state[2] = new_state[2] == 1 ? 0 : 1;
-		new_state[3] += 1;
-		new_state[4] += 1;
-		this.state = new_state;
+		if (this.state[2] == 0) {
+			this.state[0] -= 1;
+			this.state[1] -= 1;
+			this.state[3] += 1;
+			this.state[4] += 1;
+		} else {
+			this.state[0] += 1;
+			this.state[1] += 1;
+			this.state[3] -= 1;
+			this.state[4] -= 1;
+		}
+		this.state[2] = this.state[2] == 1 ? 0 : 1;
 	}
 
 	// Metodos para comprobar que movimientos se pueden hacer
 	public boolean canMoveBoat(Action where) {
 		boolean retVal = true;
 		// Variables para simplificar las operaciones
+		// Canibales
 		int nCan_izq = state[0]; // Numero de canibales en la orilla izquierda
-		int nCan_dch = state[4]; // Numero de canibales en la orilla derecha
+		int nCan_dch = state[3]; // Numero de canibales en la orilla derecha
+		// Misioneros
 		int nMis_izq = state[1]; // Numero de misioneros en la orilla izquierda
-		int nMis_dch = state[3]; // Numero de misioneros en la orilla derecha
+		int nMis_dch = state[4]; // Numero de misioneros en la orilla derecha
+		// Bote
 		boolean bote_izq = state[2] == 0; // true si y solo si el bote esta en la orilla izquierda
 		// Comprobamos el movimiento que se quiere realizar
 		if (where.equals(MOVER1C)) {
-			retVal = (bote_izq && (nCan_izq >= 1 && nCan_izq - 1 <= nMis_izq && nCan_dch + 1 <= nMis_dch))
-					|| (!bote_izq && (nCan_dch >= 1 && nCan_dch - 1 <= nMis_dch && nCan_izq + 1 <= nMis_dch));
+			retVal = (bote_izq
+					&& (nCan_izq >= 1 && nCan_izq - 1 <= nMis_izq && (nCan_dch + 1 <= nMis_dch ^ nMis_dch == 0)))
+					|| (!bote_izq && (nCan_dch >= 1 && nCan_dch - 1 <= nMis_dch
+							&& (nCan_izq + 1 <= nMis_izq ^ nMis_izq == 0)));
 		} else if (where.equals(MOVER2C)) {
-			retVal = (bote_izq && (nCan_izq >= 2 && nCan_izq - 2 <= nMis_izq && nCan_dch + 2 <= nMis_dch))
-					|| (!bote_izq && (nCan_dch >= 1 && nCan_dch - 2 <= nMis_dch && nCan_izq + 2 <= nMis_dch));
+			retVal = (bote_izq
+					&& (nCan_izq >= 2 && nCan_izq - 2 <= nMis_izq && (nCan_dch + 2 <= nMis_dch ^ nMis_dch == 0)))
+					|| (!bote_izq && (nCan_dch >= 2 && nCan_dch - 2 <= nMis_dch
+							&& (nCan_izq + 2 <= nMis_izq ^ nMis_izq == 0)));
 		} else if (where.equals(MOVER1M)) {
-			retVal = (bote_izq && (nMis_izq >= 1 && nCan_izq <= nMis_izq - 1 && nCan_dch <= nMis_dch + 1))
-					|| (!bote_izq && (nMis_dch >= 1 && nCan_dch <= nMis_dch - 1 && nCan_izq <= nMis_izq + 1));
+			retVal = (bote_izq
+					&& (nMis_izq >= 1 && (nCan_izq <= nMis_izq - 1 ^ nMis_izq == 0) && nCan_dch <= nMis_dch + 1))
+					|| (!bote_izq && (nMis_dch >= 1 && (nCan_dch <= nMis_dch - 1 ^ nMis_dch == 0)
+							&& nCan_izq <= nMis_izq + 1));
 		} else if (where.equals(MOVER2M)) {
-			retVal = (bote_izq && (nMis_izq >= 2 && nCan_izq <= nMis_izq - 2 && nCan_dch <= nMis_dch + 2))
-					|| (!bote_izq && (nMis_dch >= 2 && nCan_dch <= nMis_dch - 2 && nCan_izq <= nMis_izq + 2));
+			retVal = (bote_izq
+					&& (nMis_izq >= 2 && (nCan_izq <= nMis_izq - 2 ^ nMis_izq == 0) && nCan_dch <= nMis_dch + 2))
+					|| (!bote_izq && (nMis_dch >= 2 && (nCan_dch <= nMis_dch - 2 ^ nMis_dch == 0)
+							&& nCan_izq <= nMis_izq + 2));
 		} else if (where.equals(MOVER1C1M)) {
 			retVal = (bote_izq
 					&& (nCan_izq >= 1 && nMis_izq >= 1 && nCan_izq - 1 <= nMis_izq - 1 && nCan_dch + 1 <= nMis_dch + 1))
 					|| (!bote_izq && (nCan_dch >= 1 && nMis_dch >= 1 && nCan_dch - 1 <= nMis_dch - 1
-							&& nCan_izq + 1 <= nMis_dch + 1));
+							&& nCan_izq + 1 <= nMis_izq + 1));
 		}
 		return retVal;
 	}
@@ -150,19 +178,19 @@ public class CanibalesBoard {
 	public String toString() {
 		String retVal = "RIBERA-IZQ ";
 		// Canibales izquierda
-		if (state[0] == 3) {
+		if (state[1] == 3) {
 			retVal += "M M M ";
-		} else if (state[0] == 2) {
+		} else if (state[1] == 2) {
 			retVal += "M M ";
-		} else if (state[0] == 1) {
+		} else if (state[1] == 1) {
 			retVal += "M ";
 		}
 		// Misioneros izquierda
-		if (state[1] == 3) {
+		if (state[0] == 3) {
 			retVal += "C C C ";
-		} else if (state[1] == 2) {
+		} else if (state[0] == 2) {
 			retVal += "C C ";
-		} else if (state[1] == 1) {
+		} else if (state[0] == 1) {
 			retVal += "C ";
 		}
 		// Posicion del bote
@@ -173,19 +201,19 @@ public class CanibalesBoard {
 			retVal += "--RIO-- BOTE ";
 		}
 		// Canibales derecha
-		if (state[0] == 3) {
+		if (state[4] == 3) {
 			retVal += "M M M ";
-		} else if (state[0] == 2) {
+		} else if (state[4] == 2) {
 			retVal += "M M ";
-		} else if (state[0] == 1) {
+		} else if (state[4] == 1) {
 			retVal += "M ";
 		}
 		// Misioneros derecha
-		if (state[1] == 3) {
+		if (state[3] == 3) {
 			retVal += "C C C ";
-		} else if (state[1] == 2) {
+		} else if (state[3] == 2) {
 			retVal += "C C ";
-		} else if (state[1] == 1) {
+		} else if (state[3] == 1) {
 			retVal += "C ";
 		}
 		return retVal + "RIBERA-DCH";

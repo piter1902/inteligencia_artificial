@@ -15,6 +15,7 @@ import aima.core.environment.eightpuzzle.ManhattanHeuristicFunction;
 import aima.core.environment.eightpuzzle.MisplacedTilleHeuristicFunction;
 import aima.core.search.framework.GraphSearch;
 import aima.core.search.framework.Problem;
+import aima.core.search.framework.ResultFunction;
 import aima.core.search.framework.Search;
 import aima.core.search.framework.SearchAgent;
 import aima.core.search.framework.TreeSearch;
@@ -40,7 +41,7 @@ public class CanibalesDemoPract1 {
 	static EightPuzzleBoard extreme = new EightPuzzleBoard(new int[] { 0, 8, 7, 6, 5, 4, 3, 2, 1 });
 
 	static CanibalesBoard initial = new CanibalesBoard();
-	
+
 	public static void main(String[] args) {
 
 		System.out.format("%15s|%11s|%11s|%11s|%11s|%11s", "Problema", "Profundidad", "Expand", "Q.Size", "MasQS",
@@ -48,18 +49,19 @@ public class CanibalesDemoPract1 {
 		// Tablero de 3 movimientos
 		// Busqueda en anchura
 		executeSearch(initial, "BFS-G", new BreadthFirstSearch(new GraphSearch()), true, "");
-		executeSearch(initial, "BFS-T", new BreadthFirstSearch(new TreeSearch()), true, "");
-		// Busqueda en profuncidad
-		executeSearch(initial, "DFS-G", new DepthFirstSearch(new GraphSearch()), true, "");
-		executeSearch(initial, "DFS-T", new DepthFirstSearch(new TreeSearch()), true, "");
-		// Busqueda en profundidad limitada
-		executeSearch(initial, "DLS-9", new DepthLimitedSearch(9), true, "");
-		executeSearch(initial, "DLS-3", new DepthLimitedSearch(3), true, "");
-		// Iterative Deepening Search
-		executeSearch(initial, "IDS", new IterativeDeepeningSearch(), true, "");
-		// Uniform Cost Search
-		executeSearch(initial, "UCS-G", new UniformCostSearch(new GraphSearch()), true, "");
-		executeSearch(initial, "UCS-T", new UniformCostSearch(new TreeSearch()), true, "");
+		/*
+		 * executeSearch(initial, "BFS-T", new BreadthFirstSearch(new TreeSearch()),
+		 * true, ""); // Busqueda en profuncidad executeSearch(initial, "DFS-G", new
+		 * DepthFirstSearch(new GraphSearch()), true, ""); executeSearch(initial,
+		 * "DFS-T", new DepthFirstSearch(new TreeSearch()), true, ""); // Busqueda en
+		 * profundidad limitada executeSearch(initial, "DLS-9", new
+		 * DepthLimitedSearch(9), true, ""); executeSearch(initial, "DLS-3", new
+		 * DepthLimitedSearch(3), true, ""); // Iterative Deepening Search
+		 * executeSearch(initial, "IDS", new IterativeDeepeningSearch(), true, ""); //
+		 * Uniform Cost Search executeSearch(initial, "UCS-G", new UniformCostSearch(new
+		 * GraphSearch()), true, ""); executeSearch(initial, "UCS-T", new
+		 * UniformCostSearch(new TreeSearch()), true, "");
+		 */
 
 	}
 
@@ -95,7 +97,10 @@ public class CanibalesDemoPract1 {
 					maxQueueSize = (int) Float.parseFloat(agent.getInstrumentation().getProperty("maxQueueSize"));
 				System.out.format("\n%15s|%11s|%11s|%11s|%11s|%11s", header, depth, expandedNodes, queueSize,
 						maxQueueSize, t2 - t1);
-
+				System.out.println();
+				executeActions(agent.getActions(), p);
+				System.out.println("--------------------------------------");
+				printActions(agent.getActions());
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -107,7 +112,19 @@ public class CanibalesDemoPract1 {
 		}
 	}
 
-	
+	public static void executeActions(List<Action> actions, Problem problem) {
+		Object initialState = problem.getInitialState();
+		ResultFunction resultFunction = problem.getResultFunction();
+		Object state = initialState;
+		System.out.println("INITIAL STATE");
+		System.out.println(state);
+		for (Action action : actions) {
+			System.out.println(action.toString());
+			state = resultFunction.result(state, action);
+			System.out.println(state);
+			System.out.println("- - -");
+		}
+	}
 
 	private static void printInstrumentation(Properties properties) {
 		Iterator<Object> keys = properties.keySet().iterator();

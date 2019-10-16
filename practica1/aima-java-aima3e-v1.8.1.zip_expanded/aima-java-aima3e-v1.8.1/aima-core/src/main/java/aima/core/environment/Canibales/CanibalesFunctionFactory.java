@@ -47,7 +47,6 @@ public class CanibalesFunctionFactory {
 			if (board.canMoveBoat(CanibalesBoard.MOVER1C1M)) {
 				actions.add(CanibalesBoard.MOVER1C1M);
 			}
-
 			return actions;
 		}
 	}
