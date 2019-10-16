@@ -120,36 +120,33 @@ public class CanibalesBoard {
 		// Misioneros
 		int nMis_izq = state[1]; // Numero de misioneros en la orilla izquierda
 		int nMis_dch = state[4]; // Numero de misioneros en la orilla derecha
-		// Bote
+		// Bote -> si state[2] = 0 -> el bote esta en la izquierda
 		boolean bote_izq = state[2] == 0; // true si y solo si el bote esta en la orilla izquierda
+		//System.out.format("\n%15s|%11s|%11s|%11s|%11s", nCan_izq, nMis_izq, bote_izq, nCan_dch, nMis_dch);
 		// Comprobamos el movimiento que se quiere realizar
 		if (where.equals(MOVER1C)) {
-			retVal = (bote_izq
-					&& (nCan_izq >= 1 && nCan_izq - 1 <= nMis_izq && (nCan_dch + 1 <= nMis_dch ^ nMis_dch == 0)))
-					|| (!bote_izq && (nCan_dch >= 1 && nCan_dch - 1 <= nMis_dch
-							&& (nCan_izq + 1 <= nMis_izq ^ nMis_izq == 0)));
+			retVal = (bote_izq && nCan_izq >= 1 && noPeligroso(nCan_izq - 1, nCan_dch + 1, nMis_izq, nMis_dch))
+					|| (!bote_izq && nCan_dch >= 1 && noPeligroso(nCan_izq + 1, nCan_dch - 1, nMis_izq, nMis_dch));
 		} else if (where.equals(MOVER2C)) {
-			retVal = (bote_izq
-					&& (nCan_izq >= 2 && nCan_izq - 2 <= nMis_izq && (nCan_dch + 2 <= nMis_dch ^ nMis_dch == 0)))
-					|| (!bote_izq && (nCan_dch >= 2 && nCan_dch - 2 <= nMis_dch
-							&& (nCan_izq + 2 <= nMis_izq ^ nMis_izq == 0)));
+			retVal = (bote_izq && nCan_izq >= 2 && noPeligroso(nCan_izq - 2, nCan_dch + 2, nMis_izq, nMis_dch))
+					|| (!bote_izq && nCan_dch >= 2 && noPeligroso(nCan_izq + 2, nCan_dch - 2, nMis_izq, nMis_dch));
 		} else if (where.equals(MOVER1M)) {
-			retVal = (bote_izq
-					&& (nMis_izq >= 1 && (nCan_izq <= nMis_izq - 1 ^ nMis_izq == 0) && nCan_dch <= nMis_dch + 1))
-					|| (!bote_izq && (nMis_dch >= 1 && (nCan_dch <= nMis_dch - 1 ^ nMis_dch == 0)
-							&& nCan_izq <= nMis_izq + 1));
+			retVal = (bote_izq && nMis_izq >= 1 && noPeligroso(nCan_izq, nCan_dch, nMis_izq - 1, nMis_dch + 1))
+					|| (!bote_izq && nMis_dch >= 1 && noPeligroso(nCan_izq, nCan_dch, nMis_izq + 1, nMis_dch - 1));
 		} else if (where.equals(MOVER2M)) {
-			retVal = (bote_izq
-					&& (nMis_izq >= 2 && (nCan_izq <= nMis_izq - 2 ^ nMis_izq == 0) && nCan_dch <= nMis_dch + 2))
-					|| (!bote_izq && (nMis_dch >= 2 && (nCan_dch <= nMis_dch - 2 ^ nMis_dch == 0)
-							&& nCan_izq <= nMis_izq + 2));
+			retVal = (bote_izq && nMis_izq >= 2 && noPeligroso(nCan_izq, nCan_dch, nMis_izq - 2, nMis_dch + 2))
+					|| (!bote_izq && nMis_dch >= 2 && noPeligroso(nCan_izq, nCan_dch, nMis_izq + 2, nMis_dch - 2));
 		} else if (where.equals(MOVER1C1M)) {
-			retVal = (bote_izq
-					&& (nCan_izq >= 1 && nMis_izq >= 1 && nCan_izq - 1 <= nMis_izq - 1 && nCan_dch + 1 <= nMis_dch + 1))
-					|| (!bote_izq && (nCan_dch >= 1 && nMis_dch >= 1 && nCan_dch - 1 <= nMis_dch - 1
-							&& nCan_izq + 1 <= nMis_izq + 1));
+			retVal = (bote_izq && nCan_izq >= 1 && nMis_izq >= 1
+					&& noPeligroso(nCan_izq - 1, nCan_dch + 1, nMis_izq - 1, nMis_dch + 1))
+					|| (!bote_izq && nCan_dch >= 1 && nMis_dch >= 1
+					&& noPeligroso(nCan_izq + 1, nCan_dch - 1, nMis_izq + 1, nMis_dch - 1));
 		}
 		return retVal;
+	}
+
+	private boolean noPeligroso(int nCan_izq, int nCan_dch, int nMis_izq, int nMis_dch) {
+		return (nCan_izq <= nMis_izq || nMis_izq == 0) && (nCan_dch <= nMis_dch || nMis_dch == 0);
 	}
 
 	@Override

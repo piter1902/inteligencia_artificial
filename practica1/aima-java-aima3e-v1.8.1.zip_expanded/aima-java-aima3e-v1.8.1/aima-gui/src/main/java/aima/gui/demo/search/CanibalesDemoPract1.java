@@ -34,12 +34,6 @@ import aima.core.search.uninformed.UniformCostSearch;
  */
 
 public class CanibalesDemoPract1 {
-	static EightPuzzleBoard boardWithThreeMoveSolution = new EightPuzzleBoard(new int[] { 1, 2, 5, 3, 4, 0, 6, 7, 8 });;
-
-	static EightPuzzleBoard random1 = new EightPuzzleBoard(new int[] { 1, 4, 2, 7, 5, 8, 3, 0, 6 });
-
-	static EightPuzzleBoard extreme = new EightPuzzleBoard(new int[] { 0, 8, 7, 6, 5, 4, 3, 2, 1 });
-
 	static CanibalesBoard initial = new CanibalesBoard();
 
 	public static void main(String[] args) {
@@ -68,7 +62,6 @@ public class CanibalesDemoPract1 {
 	public static void executeSearch(CanibalesBoard board, String header, Search search, boolean execute,
 			String message) {
 		long t1, t2;
-		Properties prop = new Properties();
 		int queueSize, maxQueueSize, depth, expandedNodes;
 		if (execute) {
 			try {
@@ -77,7 +70,6 @@ public class CanibalesDemoPract1 {
 				t1 = System.currentTimeMillis();
 				SearchAgent agent = new SearchAgent(p, search);
 				t2 = System.currentTimeMillis();
-				prop = agent.getInstrumentation();
 				String pathcostM = agent.getInstrumentation().getProperty("pathCost");
 				if (pathcostM != null)
 					depth = (int) Float.parseFloat(pathcostM);
