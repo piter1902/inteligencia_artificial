@@ -145,7 +145,7 @@ public class FifteenPuzzleBoard {
 		}
 		FifteenPuzzleBoard aBoard = (FifteenPuzzleBoard) o;
 
-		for (int i = 0; i < 8; i++) {
+		for (int i = 0; i < 16; i++) {
 			if (this.getPositionOf(i) != aBoard.getPositionOf(i)) {
 				return false;
 			}
