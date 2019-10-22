@@ -34,7 +34,7 @@ import aima.core.search.uninformed.UniformCostSearch;
  */
 
 public class FifteenPuzzlePract1 {
-	static FifteenPuzzleBoard boardWithThreeMoveSolution = new FifteenPuzzleBoard(
+	static FifteenPuzzleBoard board_1 = new FifteenPuzzleBoard(
 			new int[] { 1, 2, 5, 3, 4, 0, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 });;
 
 	static FifteenPuzzleBoard random1 = new FifteenPuzzleBoard(new int[] { 1, 4, 2, 7, 5, 8, 3, 0, 6 });
@@ -53,7 +53,7 @@ public class FifteenPuzzlePract1 {
 				"tiempo");
 		// Tablero de 3 movimientos
 		// Busqueda en anchura
-		executeSearch(boardWithThreeMoveSolution, "BFS-G-3", new BreadthFirstSearch(new GraphSearch()), true, "");
+		executeSearch(board_1, "BFS-G-3", new BreadthFirstSearch(new GraphSearch()), true, "");
 		/*
 		 * executeSearch(boardWithThreeMoveSolution, "BFS-T-3", new
 		 * BreadthFirstSearch(new TreeSearch()), true, ""); // Busqueda en profuncidad
@@ -105,6 +105,7 @@ public class FifteenPuzzlePract1 {
 					maxQueueSize = (int) Float.parseFloat(agent.getInstrumentation().getProperty("maxQueueSize"));
 				System.out.format("\n%15s|%11s|%11s|%11s|%11s|%11s", header, depth, expandedNodes, queueSize,
 						maxQueueSize, t2 - t1);
+				System.out.println();
 				executeActions(agent.getActions(), p);
 
 			} catch (Exception e) {
@@ -134,7 +135,7 @@ public class FifteenPuzzlePract1 {
 	private static void eightPuzzleDLSDemo() {
 		System.out.println("\nEightPuzzleDemo recursive DLS (9) -->");
 		try {
-			Problem problem = new Problem(boardWithThreeMoveSolution, EightPuzzleFunctionFactory.getActionsFunction(),
+			Problem problem = new Problem(board_1, EightPuzzleFunctionFactory.getActionsFunction(),
 					EightPuzzleFunctionFactory.getResultFunction(), new EightPuzzleGoalTest());
 			Search search = new DepthLimitedSearch(9);
 			SearchAgent agent = new SearchAgent(problem, search);
@@ -164,7 +165,7 @@ public class FifteenPuzzlePract1 {
 	private static void eightPuzzleGreedyBestFirstDemo() {
 		System.out.println("\nEightPuzzleDemo Greedy Best First Search (MisplacedTileHeursitic)-->");
 		try {
-			Problem problem = new Problem(boardWithThreeMoveSolution, EightPuzzleFunctionFactory.getActionsFunction(),
+			Problem problem = new Problem(board_1, EightPuzzleFunctionFactory.getActionsFunction(),
 					EightPuzzleFunctionFactory.getResultFunction(), new EightPuzzleGoalTest());
 			Search search = new GreedyBestFirstSearch(new GraphSearch(), new MisplacedTilleHeuristicFunction());
 			SearchAgent agent = new SearchAgent(problem, search);
@@ -179,7 +180,7 @@ public class FifteenPuzzlePract1 {
 	private static void eightPuzzleGreedyBestFirstManhattanDemo() {
 		System.out.println("\nEightPuzzleDemo Greedy Best First Search (ManhattanHeursitic)-->");
 		try {
-			Problem problem = new Problem(boardWithThreeMoveSolution, EightPuzzleFunctionFactory.getActionsFunction(),
+			Problem problem = new Problem(board_1, EightPuzzleFunctionFactory.getActionsFunction(),
 					EightPuzzleFunctionFactory.getResultFunction(), new EightPuzzleGoalTest());
 			Search search = new GreedyBestFirstSearch(new GraphSearch(), new ManhattanHeuristicFunction());
 			SearchAgent agent = new SearchAgent(problem, search);
