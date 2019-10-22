@@ -42,6 +42,9 @@ public class FifteenPuzzlePract1 {
 
 	static FifteenPuzzleBoard board_3 = new FifteenPuzzleBoard(
 			new int[] { 1, 2, 3, 4, 5, 6, 7, 8, 11, 0, 15, 12, 14, 10, 9, 13 });
+	
+	static FifteenPuzzleBoard trivial_board = new FifteenPuzzleBoard(
+			new int[] { 1, 0, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 });
 
 	static FifteenPuzzleBoard no_moves_board = new FifteenPuzzleBoard(
 			new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 });
@@ -53,7 +56,9 @@ public class FifteenPuzzlePract1 {
 		// Tablero de 3 movimientos
 		// Busqueda en anchura
 		//executeSearch(no_moves_board, "UCS-G", new UniformCostSearch(new GraphSearch()), true, "");
-		executeSearch(board_1, "BFS-G", new BreadthFirstSearch(new GraphSearch()), true, "");
+		//executeSearch(board_1, "BFS-G", new BreadthFirstSearch(new GraphSearch()), true, "");
+		executeSearch(board_1, "BFS-G", new DepthLimitedSearch(17), true, "");
+		//executeSearch(trivial_board, "BFS-G", new BreadthFirstSearch(new GraphSearch()), true, "");
 		//executeSearch(board_2, "DFS-G", new DepthFirstSearch(new GraphSearch()), true, "");
 		//executeSearch(board_3, "DFS-G", new UniformCostSearch(new GraphSearch()), true, "");
 	}
