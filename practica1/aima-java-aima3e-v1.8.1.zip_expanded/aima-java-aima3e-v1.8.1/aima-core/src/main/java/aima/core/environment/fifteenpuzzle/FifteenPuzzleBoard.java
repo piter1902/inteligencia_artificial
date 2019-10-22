@@ -165,9 +165,10 @@ public class FifteenPuzzleBoard {
 
 	@Override
 	public String toString() {
-		String retVal = state[0] + " " + state[1] + " " + state[2] + "\n" + state[3] + " " + state[4] + " " + state[5]
-				+ " " + "\n" + state[6] + " " + state[7] + " " + state[8] + "\n" + state[9] + " " + state[10] + " "
-				+ state[11] + "\n" + state[12] + " " + state[13] + " " + state[14] + "\n";
+		String retVal = state[0] + " " + state[1] + " " + state[2] + " " + state[3] + "\n"
+				+ state[4] + " " + state[5]	+ " " + state[6] + " " + state[7] + "\n"
+				+ state[8] + " " + state[9] + " " + state[10] + " " + state[11] + "\n" 
+				+ state[12] + " " + state[13] + " " + state[14] + " " + state[15] + "\n";
 		return retVal;
 	}
 
@@ -180,7 +181,7 @@ public class FifteenPuzzleBoard {
 	 * vertical direction).
 	 */
 	private int getXCoord(int absPos) {
-		return absPos / 3;
+		return absPos / 4;
 	}
 
 	/**
@@ -188,11 +189,11 @@ public class FifteenPuzzleBoard {
 	 * horizontal direction).
 	 */
 	private int getYCoord(int absPos) {
-		return absPos % 3;
+		return absPos % 4;
 	}
 
 	private int getAbsPosition(int x, int y) {
-		return x * 3 + y;
+		return x * 4 + y;
 	}
 
 	private int getValueAt(int x, int y) {
