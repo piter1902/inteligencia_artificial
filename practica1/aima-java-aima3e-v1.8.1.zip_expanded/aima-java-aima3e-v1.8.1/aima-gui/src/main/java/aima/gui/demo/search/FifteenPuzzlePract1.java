@@ -35,42 +35,27 @@ import aima.core.search.uninformed.UniformCostSearch;
 
 public class FifteenPuzzlePract1 {
 	static FifteenPuzzleBoard board_1 = new FifteenPuzzleBoard(
-			new int[] { 1, 2, 5, 3, 4, 0, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 });;
+			new int[] { 1, 2, 5, 3, 4, 0, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 });
 
-	static FifteenPuzzleBoard random1 = new FifteenPuzzleBoard(new int[] { 1, 4, 2, 7, 5, 8, 3, 0, 6 });
+	static FifteenPuzzleBoard board_2 = new FifteenPuzzleBoard(
+			new int[] { 15, 2, 1, 12, 8, 5, 6, 11, 4, 9, 10, 7, 3, 14, 13, 0 });
 
-	static FifteenPuzzleBoard extreme = new FifteenPuzzleBoard(new int[] { 0, 8, 7, 6, 5, 4, 3, 2, 1 });
+	static FifteenPuzzleBoard board_3 = new FifteenPuzzleBoard(
+			new int[] { 1, 2, 3, 4, 5, 6, 7, 8, 11, 0, 15, 12, 14, 10, 9, 13 });
+
+	static FifteenPuzzleBoard no_moves_board = new FifteenPuzzleBoard(
+			new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 });
 
 	public static void main(String[] args) {
-		/*
-		 * eightPuzzleDLSDemo(); eightPuzzleIDLSDemo();
-		 * eightPuzzleGreedyBestFirstDemo(); eightPuzzleGreedyBestFirstManhattanDemo();
-		 * eightPuzzleAStarDemo(); eightPuzzleAStarManhattanDemo();
-		 * eightPuzzleSimulatedAnnealingDemo();
-		 */
 
 		System.out.format("%15s|%11s|%11s|%11s|%11s|%11s", "Problema", "Profundidad", "Expand", "Q.Size", "MasQS",
 				"tiempo");
 		// Tablero de 3 movimientos
 		// Busqueda en anchura
-		executeSearch(board_1, "BFS-G-3", new BreadthFirstSearch(new GraphSearch()), true, "");
-		/*
-		 * executeSearch(boardWithThreeMoveSolution, "BFS-T-3", new
-		 * BreadthFirstSearch(new TreeSearch()), true, ""); // Busqueda en profuncidad
-		 * executeSearch(boardWithThreeMoveSolution, "DFS-G-3", new DepthFirstSearch(new
-		 * GraphSearch()), true, ""); executeSearch(boardWithThreeMoveSolution,
-		 * "DFS-T-3", new DepthFirstSearch(new TreeSearch()), false, "(1)"); // Busqueda
-		 * en profundidad limitada executeSearch(boardWithThreeMoveSolution, "DLS-9-3",
-		 * new DepthLimitedSearch(9), true, "");
-		 * executeSearch(boardWithThreeMoveSolution, "DLS-3-3", new
-		 * DepthLimitedSearch(3), true, ""); // Iterative Deepening Search
-		 * executeSearch(boardWithThreeMoveSolution, "IDS-3", new
-		 * IterativeDeepeningSearch(), true, ""); // Uniform Cost Search
-		 * executeSearch(boardWithThreeMoveSolution, "UCS-G-3", new
-		 * UniformCostSearch(new GraphSearch()), true, "");
-		 * executeSearch(boardWithThreeMoveSolution, "UCS-T-3", new
-		 * UniformCostSearch(new TreeSearch()), true, "");
-		 */
+		//executeSearch(no_moves_board, "UCS-G", new UniformCostSearch(new GraphSearch()), true, "");
+		executeSearch(board_1, "BFS-G", new BreadthFirstSearch(new GraphSearch()), true, "");
+		//executeSearch(board_2, "DFS-G", new DepthFirstSearch(new GraphSearch()), true, "");
+		//executeSearch(board_3, "DFS-G", new UniformCostSearch(new GraphSearch()), true, "");
 	}
 
 	public static void executeSearch(FifteenPuzzleBoard board, String header, Search search, boolean execute,
@@ -130,112 +115,6 @@ public class FifteenPuzzlePract1 {
 			System.out.println(state);
 			System.out.println("- - -");
 		}
-	}
-
-	private static void eightPuzzleDLSDemo() {
-		System.out.println("\nEightPuzzleDemo recursive DLS (9) -->");
-		try {
-			Problem problem = new Problem(board_1, EightPuzzleFunctionFactory.getActionsFunction(),
-					EightPuzzleFunctionFactory.getResultFunction(), new EightPuzzleGoalTest());
-			Search search = new DepthLimitedSearch(9);
-			SearchAgent agent = new SearchAgent(problem, search);
-			printActions(agent.getActions());
-			printInstrumentation(agent.getInstrumentation());
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-	}
-
-	private static void eightPuzzleIDLSDemo() {
-		System.out.println("\nEightPuzzleDemo Iterative DLS -->");
-		try {
-			Problem problem = new Problem(random1, EightPuzzleFunctionFactory.getActionsFunction(),
-					EightPuzzleFunctionFactory.getResultFunction(), new EightPuzzleGoalTest());
-			Search search = new IterativeDeepeningSearch();
-			SearchAgent agent = new SearchAgent(problem, search);
-			printActions(agent.getActions());
-			printInstrumentation(agent.getInstrumentation());
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-	}
-
-	private static void eightPuzzleGreedyBestFirstDemo() {
-		System.out.println("\nEightPuzzleDemo Greedy Best First Search (MisplacedTileHeursitic)-->");
-		try {
-			Problem problem = new Problem(board_1, EightPuzzleFunctionFactory.getActionsFunction(),
-					EightPuzzleFunctionFactory.getResultFunction(), new EightPuzzleGoalTest());
-			Search search = new GreedyBestFirstSearch(new GraphSearch(), new MisplacedTilleHeuristicFunction());
-			SearchAgent agent = new SearchAgent(problem, search);
-			printActions(agent.getActions());
-			printInstrumentation(agent.getInstrumentation());
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-	}
-
-	private static void eightPuzzleGreedyBestFirstManhattanDemo() {
-		System.out.println("\nEightPuzzleDemo Greedy Best First Search (ManhattanHeursitic)-->");
-		try {
-			Problem problem = new Problem(board_1, EightPuzzleFunctionFactory.getActionsFunction(),
-					EightPuzzleFunctionFactory.getResultFunction(), new EightPuzzleGoalTest());
-			Search search = new GreedyBestFirstSearch(new GraphSearch(), new ManhattanHeuristicFunction());
-			SearchAgent agent = new SearchAgent(problem, search);
-			printActions(agent.getActions());
-			printInstrumentation(agent.getInstrumentation());
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-	}
-
-	private static void eightPuzzleAStarDemo() {
-		System.out.println("\nEightPuzzleDemo AStar Search (MisplacedTileHeursitic)-->");
-		try {
-			Problem problem = new Problem(random1, EightPuzzleFunctionFactory.getActionsFunction(),
-					EightPuzzleFunctionFactory.getResultFunction(), new EightPuzzleGoalTest());
-			Search search = new AStarSearch(new GraphSearch(), new MisplacedTilleHeuristicFunction());
-			SearchAgent agent = new SearchAgent(problem, search);
-			printActions(agent.getActions());
-			printInstrumentation(agent.getInstrumentation());
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-	}
-
-	private static void eightPuzzleSimulatedAnnealingDemo() {
-		System.out.println("\nEightPuzzleDemo Simulated Annealing  Search -->");
-		try {
-			Problem problem = new Problem(random1, EightPuzzleFunctionFactory.getActionsFunction(),
-					EightPuzzleFunctionFactory.getResultFunction(), new EightPuzzleGoalTest());
-			SimulatedAnnealingSearch search = new SimulatedAnnealingSearch(new ManhattanHeuristicFunction());
-			SearchAgent agent = new SearchAgent(problem, search);
-			printActions(agent.getActions());
-			System.out.println("Search Outcome=" + search.getOutcome());
-			System.out.println("Final State=\n" + search.getLastSearchState());
-			printInstrumentation(agent.getInstrumentation());
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
-	private static void eightPuzzleAStarManhattanDemo() {
-		System.out.println("\nEightPuzzleDemo AStar Search (ManhattanHeursitic)-->");
-		try {
-			Problem problem = new Problem(random1, EightPuzzleFunctionFactory.getActionsFunction(),
-					EightPuzzleFunctionFactory.getResultFunction(), new EightPuzzleGoalTest());
-			Search search = new AStarSearch(new GraphSearch(), new ManhattanHeuristicFunction());
-			SearchAgent agent = new SearchAgent(problem, search);
-			printActions(agent.getActions());
-			printInstrumentation(agent.getInstrumentation());
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
 	}
 
 	private static void printInstrumentation(Properties properties) {

@@ -57,7 +57,7 @@ public class FifteenPuzzleBoard {
 		int gapPos = getGapPosition();
 		int x = getXCoord(gapPos);
 		int ypos = getYCoord(gapPos);
-		if (!(ypos == 2)) {
+		if (!(ypos == 3)) {
 			int valueOnRight = getValueAt(x, ypos + 1);
 			setValue(x, ypos, valueOnRight);
 			setValue(x, ypos + 1, 0);
@@ -81,7 +81,7 @@ public class FifteenPuzzleBoard {
 		int gapPos = getGapPosition();
 		int x = getXCoord(gapPos);
 		int y = getYCoord(gapPos);
-		if (!(x == 2)) {
+		if (!(x == 3)) {
 			int valueOnBottom = getValueAt(x + 1, y);
 			setValue(x, y, valueOnBottom);
 			setValue(x + 1, y, 0);
@@ -126,11 +126,11 @@ public class FifteenPuzzleBoard {
 		if (where.equals(LEFT))
 			retVal = (getYCoord(absPos) != 0);
 		else if (where.equals(RIGHT))
-			retVal = (getYCoord(absPos) != 2);
+			retVal = (getYCoord(absPos) != 3);
 		else if (where.equals(UP))
 			retVal = (getXCoord(absPos) != 0);
 		else if (where.equals(DOWN))
-			retVal = (getXCoord(absPos) != 2);
+			retVal = (getXCoord(absPos) != 3);
 		return retVal;
 	}
 
@@ -156,7 +156,7 @@ public class FifteenPuzzleBoard {
 	@Override
 	public int hashCode() {
 		int result = 17;
-		for (int i = 0; i < 15; i++) {
+		for (int i = 0; i < 16; i++) {
 			int position = this.getPositionOf(i);
 			result = 37 * result + position;
 		}
