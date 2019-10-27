@@ -34,6 +34,10 @@ import aima.core.search.uninformed.UniformCostSearch;
  */
 
 public class FifteenPuzzlePract1 {
+
+	static FifteenPuzzleBoard random1 = new FifteenPuzzleBoard(
+			new int[] { 1, 4, 2, 7, 5, 8, 3, 0, 6, 9, 10, 11, 12, 13, 14, 15 });
+
 	static FifteenPuzzleBoard board_1 = new FifteenPuzzleBoard(
 			new int[] { 1, 2, 5, 3, 4, 0, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 });
 
@@ -42,7 +46,7 @@ public class FifteenPuzzlePract1 {
 
 	static FifteenPuzzleBoard board_3 = new FifteenPuzzleBoard(
 			new int[] { 1, 2, 3, 4, 5, 6, 7, 8, 11, 0, 15, 12, 14, 10, 9, 13 });
-	
+
 	static FifteenPuzzleBoard trivial_board = new FifteenPuzzleBoard(
 			new int[] { 1, 0, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 });
 
@@ -51,16 +55,22 @@ public class FifteenPuzzlePract1 {
 
 	public static void main(String[] args) {
 
+		System.out.println(random1.toString());
 		System.out.format("%15s|%11s|%11s|%11s|%11s|%11s", "Problema", "Profundidad", "Expand", "Q.Size", "MasQS",
 				"tiempo");
 		// Tablero de 3 movimientos
 		// Busqueda en anchura
-		//executeSearch(no_moves_board, "UCS-G", new UniformCostSearch(new GraphSearch()), true, "");
-		//executeSearch(board_1, "BFS-G", new BreadthFirstSearch(new GraphSearch()), true, "");
-		executeSearch(board_1, "BFS-G", new DepthLimitedSearch(17), true, "");
-		//executeSearch(trivial_board, "BFS-G", new BreadthFirstSearch(new GraphSearch()), true, "");
-		//executeSearch(board_2, "DFS-G", new DepthFirstSearch(new GraphSearch()), true, "");
-		//executeSearch(board_3, "DFS-G", new UniformCostSearch(new GraphSearch()), true, "");
+		// executeSearch(no_moves_board, "UCS-G", new UniformCostSearch(new
+		// GraphSearch()), true, "");
+		// executeSearch(board_1, "BFS-G", new BreadthFirstSearch(new GraphSearch()),
+		// true, "");
+		executeSearch(random1, "BFS-G", new IterativeDeepeningSearch(), true, "");
+		// executeSearch(trivial_board, "BFS-G", new BreadthFirstSearch(new
+		// GraphSearch()), true, "");
+		// executeSearch(board_2, "DFS-G", new DepthFirstSearch(new GraphSearch()),
+		// true, "");
+		// executeSearch(board_3, "DFS-G", new UniformCostSearch(new GraphSearch()),
+		// true, "");
 	}
 
 	public static void executeSearch(FifteenPuzzleBoard board, String header, Search search, boolean execute,
