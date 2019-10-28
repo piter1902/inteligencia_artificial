@@ -39,7 +39,7 @@ public class FifteenPuzzlePract1 {
 			new int[] { 1, 4, 2, 7, 5, 8, 3, 0, 6, 9, 10, 11, 12, 13, 14, 15 });
 
 	static FifteenPuzzleBoard board_1 = new FifteenPuzzleBoard(
-			new int[] { 1, 2, 5, 3, 4, 0, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 });
+			new int[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 12, 15, 13, 10, 14, 0 });
 
 	static FifteenPuzzleBoard board_2 = new FifteenPuzzleBoard(
 			new int[] { 15, 2, 1, 12, 8, 5, 6, 11, 4, 9, 10, 7, 3, 14, 13, 0 });
@@ -64,7 +64,7 @@ public class FifteenPuzzlePract1 {
 		// GraphSearch()), true, "");
 		// executeSearch(board_1, "BFS-G", new BreadthFirstSearch(new GraphSearch()),
 		// true, "");
-		executeSearch(random1, "BFS-G", new IterativeDeepeningSearch(), true, "");
+		executeSearch(random1, "BFS-G", new BreadthFirstSearch(new GraphSearch()), true, "");
 		// executeSearch(trivial_board, "BFS-G", new BreadthFirstSearch(new
 		// GraphSearch()), true, "");
 		// executeSearch(board_2, "DFS-G", new DepthFirstSearch(new GraphSearch()),

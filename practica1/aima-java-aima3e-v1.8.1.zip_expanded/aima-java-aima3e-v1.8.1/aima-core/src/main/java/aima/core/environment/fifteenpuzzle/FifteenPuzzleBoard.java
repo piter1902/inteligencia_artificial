@@ -28,7 +28,7 @@ public class FifteenPuzzleBoard {
 	//
 
 	public FifteenPuzzleBoard() {
-		state = new int[] { 15, 2, 1, 12, 8, 5, 6, 11, 4, 9, 10, 7, 3, 14, 13 };
+		state = new int[] { 15, 2, 1, 12, 8, 5, 6, 11, 4, 9, 10, 7, 3, 14, 13, 0 };
 	}
 
 	public FifteenPuzzleBoard(int[] state) {
