@@ -1,3 +1,7 @@
+/**
+ * Clase de prueba para el problema de los canibales
+ * @author Pedro Tamargo Allue
+ */
 package aima.gui.demo.search;
 
 import java.util.Iterator;
@@ -28,11 +32,6 @@ import aima.core.search.uninformed.DepthLimitedSearch;
 import aima.core.search.uninformed.IterativeDeepeningSearch;
 import aima.core.search.uninformed.UniformCostSearch;
 
-/**
- * @author Ravi Mohan
- * 
- */
-
 public class CanibalesDemoPract1 {
 	static CanibalesBoard initial = new CanibalesBoard();
 
@@ -43,7 +42,6 @@ public class CanibalesDemoPract1 {
 		// Tablero de 3 movimientos
 		executeSearch(initial, "BFS-G", new BreadthFirstSearch(new GraphSearch()), true, "");
 		executeSearch(initial, "DFS-G", new DepthFirstSearch(new GraphSearch()), true, "");
-
 	}
 
 	public static void executeSearch(CanibalesBoard board, String header, Search search, boolean execute,

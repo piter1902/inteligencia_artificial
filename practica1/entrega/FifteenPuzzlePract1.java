@@ -1,3 +1,8 @@
+/**
+ * Clase de prueba para el problema del 15-puzzle
+ * @author Pedro Tamargo Allue
+ */
+
 package aima.gui.demo.search;
 
 import java.util.Iterator;
@@ -5,14 +10,14 @@ import java.util.List;
 import java.util.Properties;
 
 import aima.core.agent.Action;
-import aima.core.environment.Canibales.CanibalesBoard;
-import aima.core.environment.Canibales.CanibalesFunctionFactory;
-import aima.core.environment.Canibales.CanibalesGoalTest;
 import aima.core.environment.eightpuzzle.EightPuzzleBoard;
 import aima.core.environment.eightpuzzle.EightPuzzleFunctionFactory;
 import aima.core.environment.eightpuzzle.EightPuzzleGoalTest;
 import aima.core.environment.eightpuzzle.ManhattanHeuristicFunction;
 import aima.core.environment.eightpuzzle.MisplacedTilleHeuristicFunction;
+import aima.core.environment.fifteenpuzzle.FifteenPuzzleBoard;
+import aima.core.environment.fifteenpuzzle.FifteenPuzzleFunctionFactory;
+import aima.core.environment.fifteenpuzzle.FifteenPuzzleGoalTest;
 import aima.core.search.framework.GraphSearch;
 import aima.core.search.framework.Problem;
 import aima.core.search.framework.ResultFunction;
@@ -28,35 +33,43 @@ import aima.core.search.uninformed.DepthLimitedSearch;
 import aima.core.search.uninformed.IterativeDeepeningSearch;
 import aima.core.search.uninformed.UniformCostSearch;
 
-/**
- * @author Ravi Mohan
- * 
- */
 
-public class CanibalesDemoPract1 {
-	static CanibalesBoard initial = new CanibalesBoard();
+public class FifteenPuzzlePract1 {
+
+	static FifteenPuzzleBoard random1 = new FifteenPuzzleBoard(
+			new int[] { 1, 4, 2, 7, 5, 8, 3, 0, 6, 9, 10, 11, 12, 13, 14, 15 });
+
+	static FifteenPuzzleBoard board_1 = new FifteenPuzzleBoard(
+			new int[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 12, 15, 13, 10, 14, 0 });
+
+	static FifteenPuzzleBoard trivial_board = new FifteenPuzzleBoard(
+			new int[] { 4, 1, 2, 3, 5, 0, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 });
+
+	static FifteenPuzzleBoard no_moves_board = new FifteenPuzzleBoard(
+			new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 });
 
 	public static void main(String[] args) {
 
 		System.out.format("%15s|%11s|%11s|%11s|%11s|%11s", "Problema", "Profundidad", "Expand", "Q.Size", "MasQS",
 				"tiempo");
-		// Tablero de 3 movimientos
-		executeSearch(initial, "BFS-G", new BreadthFirstSearch(new GraphSearch()), true, "");
-		executeSearch(initial, "DFS-G", new DepthFirstSearch(new GraphSearch()), true, "");
-
+		executeSearch(board_1, "BFS-G", new BreadthFirstSearch(new GraphSearch()), true, "");
+		executeSearch(board_1, "DFS-G", new DepthFirstSearch(new GraphSearch()), true, "");
+		executeSearch(board_1, "UCS-G", new UniformCostSearch(new GraphSearch()), true, "");
 	}
 
-	public static void executeSearch(CanibalesBoard board, String header, Search search, boolean execute,
+	public static void executeSearch(FifteenPuzzleBoard board, String header, Search search, boolean execute,
 			String message) {
 		long t1, t2;
+		Properties prop = new Properties();
 		int queueSize, maxQueueSize, depth, expandedNodes;
 		if (execute) {
 			try {
-				Problem p = new Problem(board, CanibalesFunctionFactory.getActionsFunction(),
-						CanibalesFunctionFactory.getResultFunction(), new CanibalesGoalTest());
+				Problem p = new Problem(board, FifteenPuzzleFunctionFactory.getActionsFunction(),
+						FifteenPuzzleFunctionFactory.getResultFunction(), new FifteenPuzzleGoalTest());
 				t1 = System.currentTimeMillis();
 				SearchAgent agent = new SearchAgent(p, search);
 				t2 = System.currentTimeMillis();
+				prop = agent.getInstrumentation();
 				String pathcostM = agent.getInstrumentation().getProperty("pathCost");
 				if (pathcostM != null)
 					depth = (int) Float.parseFloat(pathcostM);
@@ -78,13 +91,11 @@ public class CanibalesDemoPract1 {
 						maxQueueSize, t2 - t1);
 				System.out.println();
 				executeActions(agent.getActions(), p);
-				System.out.println("--------------------------------------");
-				printActions(agent.getActions());
+
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-
 		} else {
 			// Caso de no ejecucion -> <header> --- --- --- --- <message>
 			System.out.format("\n%15s|%11s|%11s|%11s|%11s|%11s", header, "---", "---", "---", "---", message);

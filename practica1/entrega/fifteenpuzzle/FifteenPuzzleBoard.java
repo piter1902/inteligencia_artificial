@@ -1,3 +1,7 @@
+/**
+ * Clase que representa el tablero en el problema del 15-puzzle
+ * @author Pedro Tamargo Allue
+ */
 package aima.core.environment.fifteenpuzzle;
 
 import java.util.ArrayList;
@@ -7,10 +11,7 @@ import aima.core.agent.Action;
 import aima.core.agent.impl.DynamicAction;
 import aima.core.util.datastructure.XYLocation;
 
-/**
- * @author Ravi Mohan
- * @author R. Lunde
- */
+
 public class FifteenPuzzleBoard {
 
 	public static Action LEFT = new DynamicAction("Left");
