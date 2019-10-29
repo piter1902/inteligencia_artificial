@@ -145,7 +145,7 @@ public class FifteenPuzzleBoard {
 		}
 		FifteenPuzzleBoard aBoard = (FifteenPuzzleBoard) o;
 
-		for (int i = 0; i < 15; i++) {
+		for (int i = 0; i < 16; i++) {
 			if (this.getPositionOf(i) != aBoard.getPositionOf(i)) {
 				return false;
 			}
@@ -156,7 +156,7 @@ public class FifteenPuzzleBoard {
 	@Override
 	public int hashCode() {
 		int result = 17;
-		for (int i = 0; i < 15; i++) {
+		for (int i = 0; i < 16; i++) {
 			int position = this.getPositionOf(i);
 			result = 37 * result + position;
 		}

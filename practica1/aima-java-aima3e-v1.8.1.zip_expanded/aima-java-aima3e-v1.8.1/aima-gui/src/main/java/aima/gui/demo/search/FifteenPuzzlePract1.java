@@ -35,24 +35,22 @@ import aima.core.search.uninformed.UniformCostSearch;
 
 public class FifteenPuzzlePract1 {
 
-	static FifteenPuzzleBoard random1 = new FifteenPuzzleBoard(
-			new int[] { 1, 4, 2, 7, 5, 8, 3, 0, 6, 9, 10, 11, 12, 13, 14, 15 });
-
+	// Solucion a 13 movimientos
 	static FifteenPuzzleBoard board_1 = new FifteenPuzzleBoard(
-			new int[] { 4, 1, 2, 3, 5, 6, 0, 7, 8, 9, 10, 11, 12, 13, 14, 15 });
+			new int[] { 1, 10, 2, 3, 0, 5, 7, 4, 9, 11, 6, 8, 13, 14, 15, 12 });
 
 	static FifteenPuzzleBoard no_moves_board = new FifteenPuzzleBoard(
-			new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 });
+			new int[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 0 });
 
 	public static void main(String[] args) {
 
 		System.out.format("%15s|%11s|%11s|%11s|%11s|%11s", "Problema", "Profundidad", "Expand", "Q.Size", "MasQS",
 				"tiempo");
 		executeSearch(board_1, "BFS-G", new BreadthFirstSearch(new GraphSearch()), true, "");
-		executeSearch(board_1, "DFS-G", new DepthFirstSearch(new GraphSearch()), true, "");
+		executeSearch(board_1, "DLS-10", new DepthLimitedSearch(15), true, "");
 		executeSearch(board_1, "UCS-G", new UniformCostSearch(new GraphSearch()), true, "");
 	}
-	
+
 	public static void executeSearch(FifteenPuzzleBoard board, String header, Search search, boolean execute,
 			String message) {
 		long t1, t2;
