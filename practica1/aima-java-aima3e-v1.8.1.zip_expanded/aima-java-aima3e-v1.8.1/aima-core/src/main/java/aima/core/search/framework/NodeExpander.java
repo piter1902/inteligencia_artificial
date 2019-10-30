@@ -11,6 +11,7 @@ import aima.core.agent.Action;
  */
 public class NodeExpander {
 	public static final String METRIC_NODES_EXPANDED = "nodesExpanded";
+	public static final String NODES_GENERATED = "nodesGenerated";
 
 	protected Metrics metrics;
 
@@ -23,6 +24,7 @@ public class NodeExpander {
 	 */
 	public void clearInstrumentation() {
 		metrics.set(METRIC_NODES_EXPANDED, 0);
+		metrics.set(NODES_GENERATED, 0);
 	}
 
 	/**
@@ -32,6 +34,15 @@ public class NodeExpander {
 	 */
 	public int getNodesExpanded() {
 		return metrics.getInt(METRIC_NODES_EXPANDED);
+	}
+
+	/**
+	 * Returns the number of nodes generated so far.
+	 * 
+	 * @return the number of nodes generated so far.
+	 */
+	public int getNodesGenerated() {
+		return metrics.getInt(NODES_GENERATED);
 	}
 
 	/**
@@ -47,10 +58,8 @@ public class NodeExpander {
 	 * Returns the children obtained from expanding the specified node in the
 	 * specified problem.
 	 * 
-	 * @param node
-	 *            the node to expand
-	 * @param problem
-	 *            the problem the specified node is within.
+	 * @param node    the node to expand
+	 * @param problem the problem the specified node is within.
 	 * 
 	 * @return the children obtained from expanding the specified node in the
 	 *         specified problem.
@@ -63,15 +72,13 @@ public class NodeExpander {
 		StepCostFunction stepCostFunction = problem.getStepCostFunction();
 
 		for (Action action : actionsFunction.actions(node.getState())) {
-			Object successorState = resultFunction.result(node.getState(),
-					action);
+			Object successorState = resultFunction.result(node.getState(), action);
 
-			double stepCost = stepCostFunction.c(node.getState(), action,
-					successorState);
+			double stepCost = stepCostFunction.c(node.getState(), action, successorState);
 			childNodes.add(new Node(successorState, node, action, stepCost));
+			metrics.set(NODES_GENERATED, metrics.getInt(NODES_GENERATED) + 1);
 		}
-		metrics.set(METRIC_NODES_EXPANDED,
-				metrics.getInt(METRIC_NODES_EXPANDED) + 1);
+		metrics.set(METRIC_NODES_EXPANDED, metrics.getInt(METRIC_NODES_EXPANDED) + 1);
 
 		return childNodes;
 	}
