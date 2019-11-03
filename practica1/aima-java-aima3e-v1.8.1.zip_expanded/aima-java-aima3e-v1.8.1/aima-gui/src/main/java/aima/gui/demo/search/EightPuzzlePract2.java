@@ -8,6 +8,7 @@ import aima.core.agent.Action;
 import aima.core.environment.eightpuzzle.EightPuzzleBoard;
 import aima.core.environment.eightpuzzle.EightPuzzleFunctionFactory;
 import aima.core.environment.eightpuzzle.EightPuzzleGoalTest;
+import aima.core.environment.eightpuzzle.EightPuzzleGoalTest2;
 import aima.core.environment.eightpuzzle.ManhattanHeuristicFunction;
 import aima.core.environment.eightpuzzle.ManhattanHeuristicFunction2;
 import aima.core.environment.eightpuzzle.MisplacedTilleHeuristicFunction;
@@ -54,6 +55,8 @@ public class EightPuzzlePract2 {
 		for (int i = 2; i < 25; i++) {
 			generarTabla(i);
 		}
+		System.out.format("--%3s--%40s--%40s--\n", "---", "-------------------------------------------",
+				"-------------------------------------------");
 	}
 
 	public static void generarTabla(int depth) {
@@ -87,13 +90,13 @@ public class EightPuzzlePract2 {
 		double b_est_A_est2 = bf.metodoDeBiseccion(1.00000000001, 4, 1E-10);
 		// Distinguimos la salida en funcion de la profundidad
 		if (depth < 10) {
-			System.out.format("||%3s||%10s|%10s|%10s|%10s||%10.4s|%10.4s|%10.4s|%10.4s||\n", depth, nodos_BFS, nodos_IDS,
-					nodos_A_est1, nodos_A_est2, b_est_BFS, b_est_IDS, b_est_A_est1, b_est_A_est2);
+			System.out.format("||%3s||%10s|%10s|%10s|%10s||%10.4s|%10.4s|%10.4s|%10.4s||\n", depth, nodos_BFS,
+					nodos_IDS, nodos_A_est1, nodos_A_est2, b_est_BFS, b_est_IDS, b_est_A_est1, b_est_A_est2);
 		} else {
 			System.out.format("||%3s||%10s|%10s|%10s|%10s||%10.4s|%10.4s|%10.4s|%10.4s||\n", depth, nodos_BFS, "---",
 					nodos_A_est1, nodos_A_est2, b_est_BFS, "---", b_est_A_est1, b_est_A_est2);
 		}
-		
+
 	}
 
 	/**
@@ -108,11 +111,11 @@ public class EightPuzzlePract2 {
 		for (int i = 0; i < 100; i++) {
 			// Generamos un tablero y ponemos su solucion
 			EightPuzzleBoard initial = GenerateInitialEightPuzzleBoard.randomIni();
-			//initial.setGoal(GenerateInitialEightPuzzleBoard.random(depth, initial));
-			EightPuzzleGoalTest.setGoal(GenerateInitialEightPuzzleBoard.random(depth, initial));
+			// initial.setGoal(GenerateInitialEightPuzzleBoard.random(depth, initial));
+			EightPuzzleGoalTest2.setGoal(GenerateInitialEightPuzzleBoard.random(depth, initial));
 			// Ejecutamos las busquedas
 			Problem p = new Problem(new EightPuzzleBoard(initial), EightPuzzleFunctionFactory.getActionsFunction(),
-					EightPuzzleFunctionFactory.getResultFunction(), EightPuzzleGoalTest.getGoal());
+					EightPuzzleFunctionFactory.getResultFunction(), EightPuzzleGoalTest2.getGoal());
 			try {
 				SearchAgent agent = new SearchAgent(p, search);
 				nodosGenerados += Integer.parseInt(agent.getInstrumentation().getProperty("nodesGenerated"));

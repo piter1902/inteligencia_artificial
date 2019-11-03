@@ -11,7 +11,7 @@ import aima.core.util.datastructure.XYLocation;
  * @author Ravi Mohan
  * @author R. Lunde
  */
-public class EightPuzzleBoard extends EightPuzzleGoalTest{
+public class EightPuzzleBoard extends EightPuzzleGoalTest2{
 
 	public static Action LEFT = new DynamicAction("Left");
 
