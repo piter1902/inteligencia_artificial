@@ -7,6 +7,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Properties;
 import java.util.Set;
+import java.util.Random;
 
 import aima.core.agent.Action;
 import aima.core.environment.nqueens.AttackingPairsHeuristic;
@@ -27,6 +28,7 @@ import aima.core.search.uninformed.BreadthFirstSearch;
 import aima.core.search.uninformed.DepthFirstSearch;
 import aima.core.search.uninformed.DepthLimitedSearch;
 import aima.core.search.uninformed.IterativeDeepeningSearch;
+import aima.core.util.datastructure.XYLocation;
 
 /**
  * @author Ravi Mohan
@@ -50,20 +52,75 @@ public class NQueensDemo2 {
 //		nQueensSimulatedAnnealingSearch();
 //		nQueensHillClimbingSearch();
 //		nQueensGeneticAlgorithmSearch();
+		nQueensHillClimbingSearch_Statistics(10000);
 	}
 
 	private static void nQueensHillClimbingSearch_Statistics(int numExperiments) {
 		System.out.println("NQueens HillClimbing con " + numExperiments + " estados iniciales diferentes");
 		// Generar numExperiments tableros diferentes
 		List<NQueensBoard> boards = generarTableros(numExperiments);
+		float fallos = 0, aciertos = 0, cost_fallo = 0, cost_acierto = 0;
+		for (NQueensBoard b : boards) {
+			Problem p = new Problem(b, NQueensFunctionFactory.getCActionsFunction(),
+					NQueensFunctionFactory.getResultFunction(), new NQueensGoalTest());
+			HillClimbingSearch search = new HillClimbingSearch(new AttackingPairsHeuristic());
+			SearchAgent sa = null;
+			try {
+				sa = new SearchAgent(p, search);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			if (sa != null) {
+				// Comprobamos el estado final
+				switch (search.getOutcome()) {
+				case SOLUTION_FOUND:
+					aciertos += 1;
+					cost_acierto += Float.parseFloat(sa.getInstrumentation().getProperty("pathCost"));
+					break;
+				case FAILURE:
+					fallos += 1;
+					cost_fallo += Float.parseFloat(sa.getInstrumentation().getProperty("pathCost"));
+					break;
+				}
+			}
+		}
+		// Calculamos la media
+		cost_acierto /= aciertos;
+		cost_fallo /= fallos;
+
+		aciertos /= numExperiments;
+		fallos /= numExperiments;
+
+		// Mostramos el resultado de la ejecución
+		System.out.format("Fallos: %s.4\n", fallos);
+		System.out.format("Coste medio fallos: %s.4\n", cost_fallo);
+		System.out.format("Exitos: %s.4\n", aciertos);
+		System.out.format("Coste medio Exitos: %s.4\n", cost_acierto);
 	}
 
 	private static List<NQueensBoard> generarTableros(int numExperiments) {
 		List<NQueensBoard> lista = new LinkedList<NQueensBoard>();
-		for(int i = 0; i < numExperiments; i++) {
-			
+		int generados = 0;
+		while (generados < numExperiments) {
+			NQueensBoard board = generateBoard(8);
+			if (!lista.contains(board)) {
+				lista.add(board);
+				generados++;
+			}
 		}
 		return lista;
+	}
+
+	private static NQueensBoard generateBoard(int n) {
+		NQueensBoard board = new NQueensBoard(n);
+		// Generamos posiciones aleatorias (una por columna)
+		List<XYLocation> tablero = new LinkedList<XYLocation>();
+		for (int i = 0; i < n; i++) {
+			tablero.add(new XYLocation(i, new Random(System.nanoTime()).nextInt(n)));
+		}
+		board.setBoard(tablero);
+		return board;
 	}
 
 	private static void nQueensWithRecursiveDLS() {
