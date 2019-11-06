@@ -24,7 +24,7 @@ public class NodeExpander {
 	 */
 	public void clearInstrumentation() {
 		metrics.set(METRIC_NODES_EXPANDED, 0);
-		metrics.set(NODES_GENERATED, 0);
+		metrics.set(NODES_GENERATED, 1);
 	}
 
 	/**
