@@ -38,23 +38,24 @@ import aima.core.util.datastructure.XYLocation;
  * 
  */
 
-public class NQueensDemo2 {
+public class NQueensLocal {
 
 	private static final int _boardSize = 8;
 
 	public static void main(String[] args) {
-
 		newNQueensDemo();
 	}
 
 	private static void newNQueensDemo() {
-//		nQueensHillClimbingSearch_Statistics(10000);
-//		System.out.println("-------------------------");
-//		nQueensRandomReestartHillClimbing();
-//		System.out.println("-------------------------");
-//		nQueensSimulatedAnnealingSearch_Statistics(1000);
-//		System.out.println("-------------------------");
+		nQueensHillClimbingSearch_Statistics(10000);
+		System.out.println("-------------------------");
+		nQueensRandomReestartHillClimbing();
+		System.out.println("-------------------------");
+		nQueensSimulatedAnnealingSearch_Statistics(1000);
+		System.out.println("-------------------------");
 		nQueensHillSimulatedAnnealingRestart();
+		System.out.println("-------------------------");
+		nQueenGeneticAlgorithmSearch();
 		System.out.println("-------------------------");
 	}
 
@@ -251,44 +252,38 @@ public class NQueensDemo2 {
 	public static void nQueenGeneticAlgorithmSearch() {
 		System.out.println("GeneticAlgorithm");
 		// Generar numExperiments tableros diferentes
+		try {
+			NQueensFitnessFunction fitnessFunction = new NQueensFitnessFunction();
+			// Generate an initial population
+			Set<Individual<Integer>> population = new HashSet<Individual<Integer>>();
+			for (int i = 0; i < 50; i++) {
+				population.add(fitnessFunction.generateRandomIndividual(_boardSize));
+			}
+			double probab_mutacion = 0.15;
+			GeneticAlgorithm<Integer> ga = new GeneticAlgorithm<Integer>(_boardSize,
+					fitnessFunction.getFiniteAlphabetForBoardOfSize(_boardSize), probab_mutacion);
+			System.out.printf("Parametros iniciales:\t Poblacion:%d, Probabilidad mutacion:%f)\n", population.size(),
+					probab_mutacion);
 
-		int poblacion = 2;
-		double probab_mutacion = 1.0;
-		System.out.printf("Parametros iniciales:\t Poblacion:%d, Probabilidad mutacion:%f)\n", poblacion,
-				probab_mutacion);
-		List<NQueensBoard> boards = generarTableros(poblacion);
-		float fallos = 0, aciertos = 0, cost_fallo = 0, cost_acierto = 0;
-		for (NQueensBoard b : boards) {
-			Problem p = new Problem(b, NQueensFunctionFactory.getCActionsFunction(),
-					NQueensFunctionFactory.getResultFunction(), new NQueensGoalTest());
-			HillClimbingSearch search = new HillClimbingSearch(new AttackingPairsHeuristic());
-			SearchAgent sa = null;
-			try {
-				sa = new SearchAgent(p, search);
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			if (sa != null) {
-				// Comprobamos el estado final
-				switch (search.getOutcome()) {
-				case SOLUTION_FOUND:
-					aciertos += 1;
-					// Comprobamos el tamaño de la lista de acciones a realizar -> profundidad de la
-					// solucion
-					cost_acierto += (float) (sa.getActions().size());
-					break;
-				case FAILURE:
-					fallos += 1;
-					// Comprobamos el tamaño de la lista de acciones a realizar -> profundidad de la
-					// solucion
-					cost_fallo += (float) (sa.getActions().size());
-					break;
-				}
-			}
+			// Run for a set amount of time
+			Individual<Integer> bestIndividual = ga.geneticAlgorithm(population, fitnessFunction, fitnessFunction,
+					1000L);
+
+			// Run till goal is achieved
+			bestIndividual = ga.geneticAlgorithm(population, fitnessFunction, fitnessFunction, 0L);
+
+			System.out.println("");
+			System.out.println("Goal Test Best Individual=\n" + fitnessFunction.getBoardForIndividual(bestIndividual));
+			System.out.println("Board Size               = " + _boardSize);
+			System.out.println("Fitness                  = " + fitnessFunction.getValue(bestIndividual));
+			System.out.println("Es objetivo              = " + fitnessFunction.isGoalState(bestIndividual));
+			System.out.println("Tamaño de la poblacion   = " + ga.getPopulationSize());
+			System.out.println("Iteraciones              = " + ga.getIterations());
+			System.out.println("Tiempo                   = " + ga.getTimeInMilliseconds() + "ms.");
+
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
-		System.out.println("Mejor individuo=");
-		System.out.println();
 	}
 
 	private static List<NQueensBoard> generarTableros(int numExperiments) {
@@ -317,51 +312,6 @@ public class NQueensDemo2 {
 			tablero.add(new XYLocation(i, ((new Random(System.nanoTime()).nextInt() % n) + n) % n));
 		}
 		return tablero;
-	}
-
-	public static void nQueensGeneticAlgorithmSearch() {
-		System.out.println("\nNQueensDemo GeneticAlgorithm  -->");
-		try {
-			NQueensFitnessFunction fitnessFunction = new NQueensFitnessFunction();
-			// Generate an initial population
-			Set<Individual<Integer>> population = new HashSet<Individual<Integer>>();
-			for (int i = 0; i < 50; i++) {
-				population.add(fitnessFunction.generateRandomIndividual(_boardSize));
-			}
-
-			GeneticAlgorithm<Integer> ga = new GeneticAlgorithm<Integer>(_boardSize,
-					fitnessFunction.getFiniteAlphabetForBoardOfSize(_boardSize), 0.15);
-
-			// Run for a set amount of time
-			Individual<Integer> bestIndividual = ga.geneticAlgorithm(population, fitnessFunction, fitnessFunction,
-					1000L);
-
-			System.out.println(
-					"Max Time (1 second) Best Individual=\n" + fitnessFunction.getBoardForIndividual(bestIndividual));
-			System.out.println("Board Size      = " + _boardSize);
-			System.out.println("# Board Layouts = " + (new BigDecimal(_boardSize)).pow(_boardSize));
-			System.out.println("Fitness         = " + fitnessFunction.getValue(bestIndividual));
-			System.out.println("Is Goal         = " + fitnessFunction.isGoalState(bestIndividual));
-			System.out.println("Population Size = " + ga.getPopulationSize());
-			System.out.println("Itertions       = " + ga.getIterations());
-			System.out.println("Took            = " + ga.getTimeInMilliseconds() + "ms.");
-
-			// Run till goal is achieved
-			bestIndividual = ga.geneticAlgorithm(population, fitnessFunction, fitnessFunction, 0L);
-
-			System.out.println("");
-			System.out.println("Goal Test Best Individual=\n" + fitnessFunction.getBoardForIndividual(bestIndividual));
-			System.out.println("Board Size      = " + _boardSize);
-			System.out.println("# Board Layouts = " + (new BigDecimal(_boardSize)).pow(_boardSize));
-			System.out.println("Fitness         = " + fitnessFunction.getValue(bestIndividual));
-			System.out.println("Is Goal         = " + fitnessFunction.isGoalState(bestIndividual));
-			System.out.println("Population Size = " + ga.getPopulationSize());
-			System.out.println("Itertions       = " + ga.getIterations());
-			System.out.println("Took            = " + ga.getTimeInMilliseconds() + "ms.");
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 	}
 
 	private static void printInstrumentation(Properties properties) {
