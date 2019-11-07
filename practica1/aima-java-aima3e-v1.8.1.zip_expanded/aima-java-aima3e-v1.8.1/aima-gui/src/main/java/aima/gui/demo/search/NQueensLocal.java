@@ -295,10 +295,6 @@ public class NQueensLocal {
 			if (!lista.contains(board)) {
 				lista.add(board);
 				generados++;
-				// System.out.println("Generado nº " + generados);
-				if ((generados % 1000) == 0) {
-					System.out.println(generados);
-				}
 			}
 		}
 		return lista;
