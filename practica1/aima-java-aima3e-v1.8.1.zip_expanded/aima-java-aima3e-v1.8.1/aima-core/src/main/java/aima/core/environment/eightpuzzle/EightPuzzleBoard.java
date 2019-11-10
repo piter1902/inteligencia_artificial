@@ -11,7 +11,7 @@ import aima.core.util.datastructure.XYLocation;
  * @author Ravi Mohan
  * @author R. Lunde
  */
-public class EightPuzzleBoard extends EightPuzzleGoalTest2{
+public class EightPuzzleBoard extends EightPuzzleGoalTest2 {
 
 	public static Action LEFT = new DynamicAction("Left");
 
@@ -104,8 +104,7 @@ public class EightPuzzleBoard extends EightPuzzleGoalTest2{
 		ArrayList<XYLocation> retVal = new ArrayList<XYLocation>();
 		for (int i = 0; i < 9; i++) {
 			int absPos = getPositionOf(i);
-			XYLocation loc = new XYLocation(getXCoord(absPos),
-					getYCoord(absPos));
+			XYLocation loc = new XYLocation(getXCoord(absPos), getYCoord(absPos));
 			retVal.add(loc);
 
 		}
@@ -166,9 +165,8 @@ public class EightPuzzleBoard extends EightPuzzleGoalTest2{
 
 	@Override
 	public String toString() {
-		String retVal = state[0] + " " + state[1] + " " + state[2] + "\n"
-				+ state[3] + " " + state[4] + " " + state[5] + " " + "\n"
-				+ state[6] + " " + state[7] + " " + state[8];
+		String retVal = state[0] + " " + state[1] + " " + state[2] + "\n" + state[3] + " " + state[4] + " " + state[5]
+				+ " " + "\n" + state[6] + " " + state[7] + " " + state[8];
 		return retVal;
 	}
 
@@ -185,8 +183,8 @@ public class EightPuzzleBoard extends EightPuzzleGoalTest2{
 	}
 
 	/**
-	 * Note: The graphic representation maps y values on column numbers (y-axis
-	 * in horizontal direction).
+	 * Note: The graphic representation maps y values on column numbers (y-axis in
+	 * horizontal direction).
 	 */
 	private int getYCoord(int absPos) {
 		return absPos % 3;
