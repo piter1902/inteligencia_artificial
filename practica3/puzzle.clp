@@ -52,7 +52,7 @@
                   (heuristica ?h1))
    (not (nodo (clase abierto)
               (heuristica ?h2)
-              (coste ?c2&:(> (+ ?h2 ?c2) (+ ?h1 ?c1) ) ) ) )
+              (coste ?c2&:(< (+ ?h2 ?c2) (+ ?h1 ?c1) ) ) ) )
 => 
    (modify ?nodo (clase cerrado))
    (focus OPERADORES))
@@ -67,57 +67,33 @@
    (import MAIN deffunction heuristica))
 
               
-(defrule OPERADORES::izquierda1
-   (nodo (estado $?a ?b H $?c )
+(defrule OPERADORES::izquierda
+   (nodo (estado $?a ?b $?y&:(<= (length$ ?y) 2) H $?d)
           (camino $?movimientos)
-          (coste ?coste)
-          (clase cerrado))
-=>
-   (bind $?nuevo-estado (create$ $?a H ?b $?c))
-   (assert (nodo 
-		      (estado $?nuevo-estado)
-              (camino $?movimientos <)
-              (coste (+ ?coste 1))
-              (heuristica (heuristica $?nuevo-estado)))))
-
-(defrule OPERADORES::izquierda2
-   (nodo (estado $?a ?b ?c H $?d)
-          (camino $?movimientos)
-          (coste ?coste)
-          (clase cerrado))
-=>
-   (bind $?nuevo-estado (create$ $?a H ?b ?c $?d))
-   (assert (nodo 
-		      (estado $?nuevo-estado)
-              (camino $?movimientos <2)
-              (coste (+ ?coste 1))
-              (heuristica (heuristica $?nuevo-estado)))))
-
-(defrule OPERADORES::derecha1
-   (nodo (estado $?a H ?b $?c)
-          (camino $?movimientos)
-          (coste ?coste)
+          (coste ?c)
           (clase cerrado))
  =>
-   (bind $?nuevo-estado (create$ $?a ?b H $?c))
-   (assert (nodo 
+   (bind $?nuevo-estado (create$ $?a H  $?y ?b $?d))
+   (assert (nodo
 		      (estado $?nuevo-estado)
-              (camino $?movimientos >)
-              (coste (+ ?coste 1))
-              (heuristica (heuristica $?nuevo-estado)))))
+              (camino $?movimientos (implode$ ?nuevo-estado))
+              (heuristica (heuristica $?nuevo-estado))
+              (coste (+ ?c 1)))))
 
-(defrule OPERADORES::derecha2
-   (nodo (estado $?a H ?b ?c $?d)
+
+(defrule OPERADORES::derecha
+   (nodo (estado $?a H $?y&:(<= (length$ ?y) 2) ?b $?d)
           (camino $?movimientos)
-          (coste ?coste)
+          (coste ?c)
           (clase cerrado))
  =>
-   (bind $?nuevo-estado (create$ $?a ?b ?c H $?d))
-   (assert (nodo 
+   (bind $?nuevo-estado (create$ $?a ?b $?y  H $?d))
+   (assert (nodo
 		      (estado $?nuevo-estado)
-              (camino $?movimientos >)
-              (coste (+ ?coste 1))
-              (heuristica (heuristica $?nuevo-estado)))))
+              (camino $?movimientos (implode$ ?nuevo-estado))
+              (heuristica (heuristica $?nuevo-estado))
+              (coste (+ ?c 1)))))
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;      MODULO RESTRICCIONES       ;;;
@@ -130,9 +106,9 @@
 (defrule RESTRICCIONES::repeticiones-de-nodo
    (declare (auto-focus TRUE))
    ?nodo1 <- (nodo (estado $?actual)
-         (camino $?movimientos-1))
+         (camino $?movimientos1))
    ?nodo2 <- (nodo (estado $?actual)
-                  (camino $?movimientos-2&:(>= (length $?movimientos-2) (length $?movimientos-1))))
+                  (camino $?movimientos2&:(>= (length $?movimientos2) (length $?movimientos1)))) ; El camino hasta el nodo1 es menor que hasta el nodo2
    (test (neq ?nodo1 ?nodo2))
  =>
    (retract ?nodo2))
@@ -157,7 +133,9 @@
 (defrule SOLUCION::escribe-solucion
    (solucion $?movimientos)
   =>
-   (printout t "Solucion:" $?movimientos crlf)
+   (printout t "La solucion tiene " (length$ ?movimientos) " pasos" crlf)
+   (loop-for-count (?i 1 (length$ ?movimientos))
+   (printout t (nth ?i $?movimientos) crlf))
    (halt))
 
 
