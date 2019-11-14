@@ -257,6 +257,7 @@ public class NQueensLocal {
 		// Generar numExperiments tableros diferentes
 		for (int pob = 10; pob < 100; pob += 10) {
 			long time = 0;
+			int iter = 0;
 			for (int j = 0; j < 10; j++) {
 				try {
 					NQueensFitnessFunction fitnessFunction = new NQueensFitnessFunction();
@@ -288,12 +289,12 @@ public class NQueensLocal {
 //					System.out.println("Iteraciones              = " + ga.getIterations());
 //					System.out.println("Tiempo                   = " + ga.getTimeInMilliseconds() + "ms.");
 					time += ga.getTimeInMilliseconds();
-
+					iter += ga.getIterations();
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 			}
-			System.err.printf("El tiempo con poblacion = %d es: %f ms\n", pob, (float) (time)/10);
+			System.err.printf("El tiempo con poblacion = %d es: %f ms | El nº de iteraciones es: %d\n", pob, (float) (time)/10, iter);
 		}
 	}
 
