@@ -51,12 +51,12 @@ public class NQueensLocal {
 //		System.out.println("-------------------------");
 //		nQueensRandomReestartHillClimbing();
 //		System.out.println("-------------------------");
-//		nQueensSimulatedAnnealingSearch_Statistics(1000);
-//		System.out.println("-------------------------");
+		nQueensSimulatedAnnealingSearch_Statistics(1000);
+		System.out.println("-------------------------");
 //		nQueensHillSimulatedAnnealingRestart();
 //		System.out.println("-------------------------");
-		nQueenGeneticAlgorithmSearch();
-		System.out.println("-------------------------");
+//		nQueenGeneticAlgorithmSearch();
+//		System.out.println("-------------------------");
 	}
 
 	public static void nQueensHillClimbingSearch_Statistics(int numExperiments) {
@@ -156,8 +156,9 @@ public class NQueensLocal {
 		System.out.println("NQueens Simulated Annealing con " + numExperiments + " estados iniciales diferentes");
 //		int k = 650, limit = 2000;
 //		double lam = 0.05;
-		int k = 10, limit = 10000;
-		double lam = 0.0005;
+		long t1 = System.nanoTime();
+		int k = 650, limit = 2000;
+		double lam = 0.005;
 		Scheduler scheduler = new Scheduler(k, lam, limit);
 		System.out.printf("Parametros Scheduler: Scheduler(%d, %f, %d)\n", k, lam, limit);
 		// Generar numExperiments tableros diferentes
@@ -192,6 +193,8 @@ public class NQueensLocal {
 				}
 			}
 		}
+		long t2 = System.nanoTime() - t1;
+		System.err.println("He tardado " + (double) t2 / 1E9 + " s");
 
 		// Calculamos la media
 		cost_acierto /= aciertos;
@@ -255,46 +258,37 @@ public class NQueensLocal {
 	public static void nQueenGeneticAlgorithmSearch() {
 		System.out.println("GeneticAlgorithm");
 		// Generar numExperiments tableros diferentes
-		for (int pob = 10; pob < 100; pob += 10) {
-			long time = 0;
-			int iter = 0;
-			for (int j = 0; j < 10; j++) {
-				try {
-					NQueensFitnessFunction fitnessFunction = new NQueensFitnessFunction();
-					// Generate an initial population
-					Set<Individual<Integer>> population = new HashSet<Individual<Integer>>();
-					for (int i = 0; i < pob; i++) {
-						population.add(fitnessFunction.generateRandomIndividual(_boardSize));
-					}
-					double probab_mutacion = 0.15;
-					GeneticAlgorithm<Integer> ga = new GeneticAlgorithm<Integer>(_boardSize,
-							fitnessFunction.getFiniteAlphabetForBoardOfSize(_boardSize), probab_mutacion);
-//					System.out.printf("Parametros iniciales:\t Poblacion:%d, Probabilidad mutacion:%f)\n",
-//							population.size(), probab_mutacion);
 
-					// Run for a set amount of time
-					Individual<Integer> bestIndividual = ga.geneticAlgorithm(population, fitnessFunction,
-							fitnessFunction, 1000L);
-
-					// Run till goal is achieved
-					bestIndividual = ga.geneticAlgorithm(population, fitnessFunction, fitnessFunction, 0L);
-
-//					System.out.println("");
-//					System.out.println(
-//							"Goal Test Best Individual=\n" + fitnessFunction.getBoardForIndividual(bestIndividual));
-//					System.out.println("Board Size               = " + _boardSize);
-//					System.out.println("Fitness                  = " + fitnessFunction.getValue(bestIndividual));
-//					System.out.println("Es objetivo              = " + fitnessFunction.isGoalState(bestIndividual));
-//					System.out.println("Tamaño de la poblacion   = " + ga.getPopulationSize());
-//					System.out.println("Iteraciones              = " + ga.getIterations());
-//					System.out.println("Tiempo                   = " + ga.getTimeInMilliseconds() + "ms.");
-					time += ga.getTimeInMilliseconds();
-					iter += ga.getIterations();
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
+		try {
+			NQueensFitnessFunction fitnessFunction = new NQueensFitnessFunction();
+			// Generate an initial population
+			Set<Individual<Integer>> population = new HashSet<Individual<Integer>>();
+			for (int i = 0; i < 30; i++) {
+				population.add(fitnessFunction.generateRandomIndividual(_boardSize));
 			}
-			System.err.printf("El tiempo con poblacion = %d es: %f ms | El nº de iteraciones es: %d\n", pob, (float) (time)/10, iter);
+			double probab_mutacion = 0.15;
+			GeneticAlgorithm<Integer> ga = new GeneticAlgorithm<Integer>(_boardSize,
+					fitnessFunction.getFiniteAlphabetForBoardOfSize(_boardSize), probab_mutacion);
+			System.out.printf("Parametros iniciales:\t Poblacion:%d, Probabilidad mutacion:%f)\n", population.size(),
+					probab_mutacion);
+
+			// Run for a set amount of time
+			Individual<Integer> bestIndividual = ga.geneticAlgorithm(population, fitnessFunction, fitnessFunction,
+					1000L);
+
+			// Run till goal is achieved
+			bestIndividual = ga.geneticAlgorithm(population, fitnessFunction, fitnessFunction, 0L);
+
+			System.out.println("");
+			System.out.println("Goal Test Best Individual=\n" + fitnessFunction.getBoardForIndividual(bestIndividual));
+			System.out.println("Board Size               = " + _boardSize);
+			System.out.println("Fitness                  = " + fitnessFunction.getValue(bestIndividual));
+			System.out.println("Es objetivo              = " + fitnessFunction.isGoalState(bestIndividual));
+			System.out.println("Tamaño de la poblacion   = " + ga.getPopulationSize());
+			System.out.println("Iteraciones              = " + ga.getIterations());
+			System.out.println("Tiempo                   = " + ga.getTimeInMilliseconds() + "ms.");
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 
