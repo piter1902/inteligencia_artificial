@@ -1,4 +1,4 @@
-package aima.gui.sudoku.csp;
+package aima.gui.nqueens.csp;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,7 +11,7 @@ import aima.core.search.csp.ImprovedBacktrackingStrategy;
 import aima.core.search.csp.MinConflictsStrategy;
 import aima.core.search.csp.SolutionStrategy;
 
-public class SudokuApp {
+public class NQueensMinConflictApp {
 
 	public static void main(String[] args) {
 		final String path = "D:\\PRACTICAS\\inteligencia_artificial\\tp6-parte1\\";
@@ -20,7 +20,7 @@ public class SudokuApp {
 				Sudoku.listaSudokus2(path + "hardest.txt"));
 		long t1 = System.nanoTime();
 		for (Sudoku s : lista) {
-			CSP csp = new SudokuProblem(s.pack_celdasAsignadas());
+			CSP csp = new NQueensProblem(s.pack_celdasAsignadas());
 			StepCounter stepCounter = new StepCounter();
 			SolutionStrategy solver = new ImprovedBacktrackingStrategy(true, true, true, true);
 			solver.addCSPStateListener(stepCounter);
