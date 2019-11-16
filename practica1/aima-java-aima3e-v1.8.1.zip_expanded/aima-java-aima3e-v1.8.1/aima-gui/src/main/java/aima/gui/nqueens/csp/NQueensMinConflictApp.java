@@ -14,20 +14,19 @@ import aima.core.search.csp.SolutionStrategy;
 public class NQueensMinConflictApp {
 
 	public static void main(String[] args) {
-		final String path = "D:\\PRACTICAS\\inteligencia_artificial\\tp6-parte1\\";
-		Sudoku[] lista = union(
-				union(Sudoku.listaSudokus2(path + "easy50.txt"), Sudoku.listaSudokus2(path + "top95.txt")),
-				Sudoku.listaSudokus2(path + "hardest.txt"));
+//		final String path = "D:\\PRACTICAS\\inteligencia_artificial\\tp6-parte1\\";
+//		Sudoku[] lista = union(
+//				union(Sudoku.listaSudokus2(path + "easy50.txt"), Sudoku.listaSudokus2(path + "top95.txt")),
+//				Sudoku.listaSudokus2(path + "hardest.txt"));
 		long t1 = System.nanoTime();
-		for (Sudoku s : lista) {
-			CSP csp = new NQueensProblem(s.pack_celdasAsignadas());
-			StepCounter stepCounter = new StepCounter();
-			SolutionStrategy solver = new ImprovedBacktrackingStrategy(true, true, true, true);
-			solver.addCSPStateListener(stepCounter);
-			stepCounter.reset();
-			// System.out.println(solver.solve(csp.copyDomains()));
-			// System.out.println(stepCounter.getResults() + "\n");
-		}
+		CSP csp = new NQueensProblem(pack_celdasAsignadas());
+		MinConflictsStrategy mcs = new MinConflictsStrategy(1000);
+		StepCounter stepCounter = new StepCounter();
+		mcs.addCSPStateListener(stepCounter);
+		stepCounter.reset();
+		// System.out.println(solver.solve(csp.copyDomains()));
+		// System.out.println(stepCounter.getResults() + "\n");
+
 		long t2 = System.nanoTime();
 		System.out.printf("Se han resuelto %s sudokus en %s segundos", lista.length, (t2 - t1) / 1E9);
 	}

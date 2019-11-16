@@ -157,8 +157,8 @@ public class NQueensLocal {
 //		int k = 650, limit = 2000;
 //		double lam = 0.05;
 		long t1 = System.nanoTime();
-		int k = 650, limit = 2000;
-		double lam = 0.005;
+		int k = 700, limit = 2000;
+		double lam = 0.5;
 		Scheduler scheduler = new Scheduler(k, lam, limit);
 		System.out.printf("Parametros Scheduler: Scheduler(%d, %f, %d)\n", k, lam, limit);
 		// Generar numExperiments tableros diferentes

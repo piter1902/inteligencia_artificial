@@ -1,5 +1,9 @@
 package aima.gui.nqueens.csp;
 
-public class NQueensAssignment {
+import aima.core.search.csp.Assignment;
 
+public class NQueensAssignment extends Assignment {
+	public NQueensAssignment() {
+		super();
+	}
 }
