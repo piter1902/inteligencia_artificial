@@ -18,6 +18,7 @@ public class SudokuApp {
 		Sudoku[] lista = union(
 				union(Sudoku.listaSudokus2(path + "easy50.txt"), Sudoku.listaSudokus2(path + "top95.txt")),
 				Sudoku.listaSudokus2(path + "hardest.txt"));
+		int resueltos = 0;
 		long t1 = System.nanoTime();
 		for (Sudoku s : lista) {
 			CSP csp = new SudokuProblem(s.pack_celdasAsignadas());
@@ -25,11 +26,22 @@ public class SudokuApp {
 			SolutionStrategy solver = new ImprovedBacktrackingStrategy(true, true, true, true);
 			solver.addCSPStateListener(stepCounter);
 			stepCounter.reset();
-			// System.out.println(solver.solve(csp.copyDomains()));
-			// System.out.println(stepCounter.getResults() + "\n");
+			System.out.println("---------");
+			s.imprimeSudoku();
+			if (!s.completo()) {
+				System.out.println("SUDOKU INCOMPLETO - RESOLVIENDO");
+				Assignment as = solver.solve(csp.copyDomains());
+				System.out.print(as);
+				System.out.print(stepCounter.getResults() + "\n");
+				Sudoku solved = new Sudoku(as);
+				solved.imprimeSudoku();
+				System.out.println("Sudoku solucionado correctamente");
+				resueltos++;
+			}
 		}
 		long t2 = System.nanoTime();
-		System.out.printf("Se han resuelto %s sudokus en %s segundos", lista.length, (t2 - t1) / 1E9);
+		System.out.println("+++++++++");
+		System.out.printf("Se han resuelto %s sudokus en %s segundos", resueltos, (t2 - t1) / 1E9);
 	}
 
 	private static Sudoku[] union(Sudoku[] s1, Sudoku[] s2) {
