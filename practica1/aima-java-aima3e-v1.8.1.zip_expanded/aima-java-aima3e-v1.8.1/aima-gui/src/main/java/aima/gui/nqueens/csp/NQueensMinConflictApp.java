@@ -19,31 +19,18 @@ public class NQueensMinConflictApp {
 //				union(Sudoku.listaSudokus2(path + "easy50.txt"), Sudoku.listaSudokus2(path + "top95.txt")),
 //				Sudoku.listaSudokus2(path + "hardest.txt"));
 		long t1 = System.nanoTime();
-		CSP csp = new NQueensProblem(pack_celdasAsignadas());
+		CSP csp = new NQueensProblem();
 		MinConflictsStrategy mcs = new MinConflictsStrategy(1000);
 		StepCounter stepCounter = new StepCounter();
 		mcs.addCSPStateListener(stepCounter);
 		stepCounter.reset();
-		// System.out.println(solver.solve(csp.copyDomains()));
-		// System.out.println(stepCounter.getResults() + "\n");
+		System.out.println(mcs.solve(csp.copyDomains()));
+		System.out.println(stepCounter.getResults() + "\n");
 
 		long t2 = System.nanoTime();
-		System.out.printf("Se han resuelto %s sudokus en %s segundos", lista.length, (t2 - t1) / 1E9);
+		System.out.printf("Se han resuelto %s tableros en %s segundos", 1, (t2 - t1) / 1E9);
 	}
 
-	private static Sudoku[] union(Sudoku[] s1, Sudoku[] s2) {
-		Sudoku[] lista = new Sudoku[s1.length + s2.length];
-		int i = 0;
-		for (Sudoku s : s1) {
-			lista[i] = s;
-			i++;
-		}
-		for (Sudoku s : s2) {
-			lista[i] = s;
-			i++;
-		}
-		return lista;
-	}
 
 	/** Counts assignment and domain changes during CSP solving. */
 	protected static class StepCounter implements CSPStateListener {

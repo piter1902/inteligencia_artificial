@@ -5,21 +5,19 @@ import aima.core.search.csp.Variable;
 public class NQueensVariable extends Variable {
 
 	private int x, y;
-	private int value;
 
-	public NQueensVariable(String name, int coordX, int coordY) {
+	public NQueensVariable(String name, int column) {
 		super(name);
-		this.x = coordX;
-		this.y = coordY;
-		this.value = 0;
+		this.x = 0;
+		this.y = column;
 	}
 
 	public int getValue() {
-		return value;
+		return y;
 	}
 
 	public void setValue(int value) {
-		this.value = value;
+		this.y = value;
 	}
 
 	public int getX() {

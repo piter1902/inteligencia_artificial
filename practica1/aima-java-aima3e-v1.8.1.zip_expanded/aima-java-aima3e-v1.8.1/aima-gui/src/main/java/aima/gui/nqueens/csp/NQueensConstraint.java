@@ -28,8 +28,12 @@ public class NQueensConstraint implements Constraint {
 
 	@Override
 	public boolean isSatisfiedWith(Assignment assignment) {
-		Object value1 = assignment.getAssignment(var1);
-		return value1 == null || !value1.equals(assignment.getAssignment(var2));
+		Integer value1 = (Integer) assignment.getAssignment(var1);
+		Integer value2 = (Integer) assignment.getAssignment(var2);
+		int col1 = ((NQueensVariable) var1).getY();
+		int col2 = ((NQueensVariable) var2).getY();
+		return value1 == null || (!value1.equals(value2) && col1 != col2
+				&& Math.abs(value1.intValue() - col1) != Math.abs(value2.intValue() - col2));
 	}
 
 }
