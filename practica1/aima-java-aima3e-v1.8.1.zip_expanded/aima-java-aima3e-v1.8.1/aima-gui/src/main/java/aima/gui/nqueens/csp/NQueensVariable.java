@@ -13,11 +13,11 @@ public class NQueensVariable extends Variable {
 	}
 
 	public int getValue() {
-		return y;
+		return x;
 	}
 
 	public void setValue(int value) {
-		this.y = value;
+		this.x = value;
 	}
 
 	public int getX() {

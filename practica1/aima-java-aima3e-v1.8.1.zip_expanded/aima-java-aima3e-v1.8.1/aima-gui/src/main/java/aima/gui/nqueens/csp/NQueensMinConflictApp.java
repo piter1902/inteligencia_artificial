@@ -3,6 +3,7 @@ package aima.gui.nqueens.csp;
 import java.util.ArrayList;
 import java.util.List;
 
+import aima.core.environment.nqueens.NQueensBoard;
 import aima.core.search.csp.Assignment;
 import aima.core.search.csp.BacktrackingStrategy;
 import aima.core.search.csp.CSP;
@@ -10,6 +11,8 @@ import aima.core.search.csp.CSPStateListener;
 import aima.core.search.csp.ImprovedBacktrackingStrategy;
 import aima.core.search.csp.MinConflictsStrategy;
 import aima.core.search.csp.SolutionStrategy;
+import aima.core.search.csp.Variable;
+import aima.core.util.datastructure.XYLocation;
 
 public class NQueensMinConflictApp {
 
@@ -24,7 +27,9 @@ public class NQueensMinConflictApp {
 		StepCounter stepCounter = new StepCounter();
 		mcs.addCSPStateListener(stepCounter);
 		stepCounter.reset();
-		System.out.println(mcs.solve(csp.copyDomains()));
+		Assignment as = mcs.solve(csp.copyDomains());
+		buildBoard(as).print();
+		System.out.println(as);
 		System.out.println(stepCounter.getResults() + "\n");
 
 		long t2 = System.nanoTime();
@@ -59,5 +64,15 @@ public class NQueensMinConflictApp {
 				result.append(", domain changes: " + domainCount);
 			return result.toString();
 		}
+	}
+	
+	public static NQueensBoard buildBoard(Assignment as) {
+		NQueensBoard nqb = new NQueensBoard(8);
+		for(Variable v : as.getVariables()) {
+			NQueensVariable nqv = (NQueensVariable) v;
+			System.out.printf("%d , %d\n", nqv.getY(), nqv.getValue());
+			nqb.addQueenAt(new XYLocation(nqv.getY(), nqv.getValue()));
+		}
+		return nqb;
 	}
 }
