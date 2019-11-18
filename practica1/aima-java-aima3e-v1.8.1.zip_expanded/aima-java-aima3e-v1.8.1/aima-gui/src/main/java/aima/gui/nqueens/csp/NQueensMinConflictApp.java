@@ -17,25 +17,28 @@ import aima.core.util.datastructure.XYLocation;
 public class NQueensMinConflictApp {
 
 	public static void main(String[] args) {
-//		final String path = "D:\\PRACTICAS\\inteligencia_artificial\\tp6-parte1\\";
-//		Sudoku[] lista = union(
-//				union(Sudoku.listaSudokus2(path + "easy50.txt"), Sudoku.listaSudokus2(path + "top95.txt")),
-//				Sudoku.listaSudokus2(path + "hardest.txt"));
+
 		long t1 = System.nanoTime();
 		CSP csp = new NQueensProblem();
 		MinConflictsStrategy mcs = new MinConflictsStrategy(1000);
 		StepCounter stepCounter = new StepCounter();
 		mcs.addCSPStateListener(stepCounter);
 		stepCounter.reset();
+
 		Assignment as = mcs.solve(csp.copyDomains());
-		buildBoard(as).print();
+		System.out.println(as == null ? "nulo" : "no nulo");
+		NQueensBoard solutionBoard = buildBoard(as);
+
+		System.out.println(solutionBoard);
+		int conflicts = solutionBoard.getNumberOfAttackingPairs();
+		System.out.println(conflicts);
 		System.out.println(as);
 		System.out.println(stepCounter.getResults() + "\n");
 
 		long t2 = System.nanoTime();
 		System.out.printf("Se han resuelto %s tableros en %s segundos", 1, (t2 - t1) / 1E9);
-	}
 
+	}
 
 	/** Counts assignment and domain changes during CSP solving. */
 	protected static class StepCounter implements CSPStateListener {
@@ -65,13 +68,14 @@ public class NQueensMinConflictApp {
 			return result.toString();
 		}
 	}
-	
+
 	public static NQueensBoard buildBoard(Assignment as) {
 		NQueensBoard nqb = new NQueensBoard(8);
-		for(Variable v : as.getVariables()) {
+		for (Variable v : as.getVariables()) {
+			int valor = (int) as.getAssignment(v);
 			NQueensVariable nqv = (NQueensVariable) v;
-			System.out.printf("%d , %d\n", nqv.getY(), nqv.getValue());
-			nqb.addQueenAt(new XYLocation(nqv.getY(), nqv.getValue()));
+//			System.out.println(nqv + " = " + (valor));
+			nqb.addQueenAt(new XYLocation(nqv.getY(), valor));
 		}
 		return nqb;
 	}

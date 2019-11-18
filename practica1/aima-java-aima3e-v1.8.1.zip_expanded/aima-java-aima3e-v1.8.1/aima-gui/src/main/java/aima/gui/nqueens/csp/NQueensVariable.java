@@ -35,5 +35,5 @@ public class NQueensVariable extends Variable {
 	public void setY(int y) {
 		this.y = y;
 	}
-
+	
 }

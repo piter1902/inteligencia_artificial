@@ -32,8 +32,8 @@ public class NQueensConstraint implements Constraint {
 		Integer value2 = (Integer) assignment.getAssignment(var2);
 		int col1 = ((NQueensVariable) var1).getY();
 		int col2 = ((NQueensVariable) var2).getY();
-		return value1 == null || (!value1.equals(value2) && col1 != col2
-				&& Math.abs(value1.intValue() - col1) != Math.abs(value2.intValue() - col2));
+		return value1.intValue() != value2.intValue() && col1 != col2
+				&& Math.abs(col2 - col1) != Math.abs(value2.intValue() - value1.intValue());
 	}
 
 }

@@ -7,28 +7,27 @@ import aima.core.search.csp.Domain;
 import aima.core.search.csp.Variable;
 
 public class NQueensProblem extends CSP {
-	private static final int cells = 81;
+
 	private static final int dimension = 8;
 	private static List<Variable> variables = null;
 
 	/**
 	 *
-	 * @return Devuelve la lista de variables del Sudoku. Nombre Cell at [i][j], y
-	 *         coordenadas i,j
+	 * @return Devuelve la lista de variables de las reinas. Nombre Reina en
+	 *         columna[ columna ], con el valor de la columna.
 	 */
 	private static List<Variable> collectVariables() {
 		variables = new ArrayList<Variable>();
-//		for (int i = 0; i < 9; i++)
-		for (int j = 0; j < dimension; j++) {
-			variables.add(new NQueensVariable("Reina en columna[" + j + "]", j));
+		for (int i = 0; i < dimension; i++) {
+			variables.add(new NQueensVariable("Reina en columna[" + i + "]", i));
 		}
 		return variables;
 	}
 
 	/**
 	 *
-	 * @param var variable del Sudoku
-	 * @return Dominio de la variable, si tiene valor el domio es el valor. Sino el
+	 * @param var variable de las NQueens
+	 * @return Dominio de la variable, si tiene valor el domino es el valor. Sino el
 	 *         domino 1-9
 	 */
 	private static List<Integer> getNQueensDomain(NQueensVariable var) {
@@ -37,7 +36,7 @@ public class NQueensProblem extends CSP {
 			list.add(new Integer(var.getValue()));
 			return list;
 		} else
-			for (int i = 1; i <= dimension; i++)
+			for (int i = 0; i < dimension; i++)
 				list.add(new Integer(i));
 		return list;
 	}
@@ -50,7 +49,6 @@ public class NQueensProblem extends CSP {
 	public NQueensProblem() {
 		// variables
 		super(collectVariables());
-		// initialize(pack);
 		for (int i = 0; i < dimension; i++) {
 			NQueensVariable x = (NQueensVariable) variables.get(i);
 		}
@@ -62,27 +60,6 @@ public class NQueensProblem extends CSP {
 		}
 		// restricciones
 		doConstraint();
-	}
-
-	/**
-	 * Inicializa las variables a partir de las celdas disponibles, que tienen
-	 * valor. Recorren las listas de variables del Sudoku y del pack, y si tienen
-	 * las mismas coordenadas, les da el valor que tiene.
-	 * 
-	 * @param pack
-	 */
-	private void initialize(AvailableCells pack) {
-		List<Variable> alList = pack.getList();
-		Domain domain;
-		for (int i = 0; i < cells; i++) {
-			NQueensVariable var1 = (NQueensVariable) variables.get(i);
-			for (int j = 0; j < pack.getNumOfAvailable(); j++) {
-				NQueensVariable var2 = (NQueensVariable) alList.get(j);
-				if (var1.getX() == var2.getX() && var1.getY() == var2.getY()) {
-					var1.setValue(var2.getValue());
-				}
-			}
-		}
 	}
 
 	private void doConstraint() {
