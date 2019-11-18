@@ -31,12 +31,12 @@ public class NQueensMinConflictApp {
 
 		System.out.println(solutionBoard);
 		int conflicts = solutionBoard.getNumberOfAttackingPairs();
-		System.out.println(conflicts);
+		System.out.println(conflicts + " conflictos detectados");
 		System.out.println(as);
 		System.out.println(stepCounter.getResults() + "\n");
 
 		long t2 = System.nanoTime();
-		System.out.printf("Se han resuelto %s tableros en %s segundos", 1, (t2 - t1) / 1E9);
+		System.out.printf("Se ha resuelto el tablero en %.6s segundos", (t2 - t1) / 1E9);
 
 	}
 
