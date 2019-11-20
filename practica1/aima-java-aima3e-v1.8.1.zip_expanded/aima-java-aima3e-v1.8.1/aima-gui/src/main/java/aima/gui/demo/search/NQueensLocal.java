@@ -51,12 +51,12 @@ public class NQueensLocal {
 //		System.out.println("-------------------------");
 //		nQueensRandomReestartHillClimbing();
 //		System.out.println("-------------------------");
-		nQueensSimulatedAnnealingSearch_Statistics(1000);
-		System.out.println("-------------------------");
+//		nQueensSimulatedAnnealingSearch_Statistics(1000);
+//		System.out.println("-------------------------");
 //		nQueensHillSimulatedAnnealingRestart();
 //		System.out.println("-------------------------");
-//		nQueenGeneticAlgorithmSearch();
-//		System.out.println("-------------------------");
+		nQueenGeneticAlgorithmSearch();
+		System.out.println("-------------------------");
 	}
 
 	public static void nQueensHillClimbingSearch_Statistics(int numExperiments) {
@@ -154,11 +154,11 @@ public class NQueensLocal {
 
 	public static void nQueensSimulatedAnnealingSearch_Statistics(int numExperiments) {
 		System.out.println("NQueens Simulated Annealing con " + numExperiments + " estados iniciales diferentes");
-//		int k = 650, limit = 2000;
-//		double lam = 0.05;
+		int k = 650, limit = 2000;
+		double lam = 0.05;
 		long t1 = System.nanoTime();
-		int k = 700, limit = 2000;
-		double lam = 0.5;
+//		int k = 700, limit = 2000;
+//		double lam = 0.5;
 		Scheduler scheduler = new Scheduler(k, lam, limit);
 		System.out.printf("Parametros Scheduler: Scheduler(%d, %f, %d)\n", k, lam, limit);
 		// Generar numExperiments tableros diferentes
@@ -194,7 +194,7 @@ public class NQueensLocal {
 			}
 		}
 		long t2 = System.nanoTime() - t1;
-		System.err.println("He tardado " + (double) t2 / 1E9 + " s");
+//		System.out.println("He tardado " + (double) t2 / 1E9 + " s");
 
 		// Calculamos la media
 		cost_acierto /= aciertos;
