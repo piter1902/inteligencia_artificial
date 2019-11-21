@@ -100,9 +100,11 @@
 ;; Eliminamos nodos con más caníbales que misioneros en una orilla (COMPLETAR)
 (defrule RESTRICCIONES::eliminar-prohibidos
     (declare (auto-focus TRUE))
-    ?nodo <- (nodo (estado $?mi s $?ci i $?md s $?cd ))
-    (test (or (< (length $?mi) (length $?ci)) (< (length $?md) (length $?cd)) ))
+    ?nodo <- (nodo (estado $?mi s $?ci ?l&:i|f $?md s $?cd ))
+    (test (or (and (< (length $?mi) (length $?ci)) (neq (length $?mi) 0)) (and (< (length $?md) (length $?cd)) (neq (length $?md) 0)) ))
     =>
+    (bind $?nuevoestado (create$ $?mi s $?ci ?l $?md s $?cd ))
+    (printout t "El estado " (implode$ $?nuevoestado) " es peligroso" crlf)
     (retract ?nodo)
     )
 
@@ -141,7 +143,7 @@
 ;;; (load "misioneros.clp")
 ;;; (problema 3 3 2)
 (deffunction MAIN::problema (?m ?c ?b)
-    (reset)
+    ;(reset)
     (bind ?*misioneros* ?m)
     (bind ?*canibales* ?c)
     (bind ?*capacidad* ?b)
@@ -155,5 +157,5 @@
     (camino (implode$ ?*estado-inicial*))
     (heuristica (heuristica ?*ci* ?*mi*))
     ))
-    (run)
+    ;(run)
 )
