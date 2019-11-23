@@ -18,30 +18,27 @@ public class NQueensMinConflictApp {
 
 	public static void main(String[] args) {
 
-		for (int i = 10; i <= 250; i += 10) {
-			int resueltos = 0;
-			for (int prueba = 0; prueba < 50; prueba++) {
-				long t1 = System.nanoTime();
-				CSP csp = new NQueensProblem();
-				MinConflictsStrategy mcs = new MinConflictsStrategy(i);
-				StepCounter stepCounter = new StepCounter();
-				mcs.addCSPStateListener(stepCounter);
-				stepCounter.reset();
+		do {
+			CSP csp = new NQueensProblem();
+			MinConflictsStrategy mcs = new MinConflictsStrategy(100);
+			StepCounter stepCounter = new StepCounter();
+			mcs.addCSPStateListener(stepCounter);
+			stepCounter.reset();
 
-				Assignment as = mcs.solve(csp.copyDomains());
-				if (as != null) {
-					NQueensBoard solutionBoard = buildBoard(as);
-//					System.out.println(solutionBoard);
-					int conflicts = solutionBoard.getNumberOfAttackingPairs();
-//					System.out.println(conflicts + " conflictos detectados");
-//					System.out.println(as);
-//					System.out.println(stepCounter.getResults() + "\n");
-					long t2 = System.nanoTime();
-					resueltos++;
-				}
+			long t1 = System.nanoTime();
+			Assignment as = mcs.solve(csp.copyDomains());
+			long t2 = System.nanoTime();
+			if (as != null) {
+				NQueensBoard solutionBoard = buildBoard(as);
+				System.out.println(solutionBoard);
+				int conflicts = solutionBoard.getNumberOfAttackingPairs();
+				System.out.println(conflicts + " conflictos detectados");
+				System.out.println(as);
+				System.out.println(stepCounter.getResults() + "\n");
+				System.out.printf("Se han resuelto 1 tablero en %.6s segundos\n", (t2 - t1) / 1E9);
+				break; // En el momento que se resuelva 1 tablero -> Fin de la ejecucion
 			}
-			System.out.printf("Limite: %s -- Se han resuelto %s tableros en %.6s segundos\n", i, resueltos, 0 / 1E9);
-		}
+		} while (true);
 
 	}
 
