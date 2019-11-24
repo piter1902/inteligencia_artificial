@@ -20,7 +20,8 @@ public class NQueensMinConflictApp_pruebas {
 
 		for (int i = 10; i <= 250; i += 10) {
 			int resueltos = 0;
-			for (int prueba = 0; prueba < 50; prueba++) {
+			long time = 0;
+			for (int prueba = 0; prueba < 100; prueba++) {
 				long t1 = System.nanoTime();
 				CSP csp = new NQueensProblem();
 				MinConflictsStrategy mcs = new MinConflictsStrategy(i);
@@ -32,15 +33,16 @@ public class NQueensMinConflictApp_pruebas {
 				if (as != null) {
 					NQueensBoard solutionBoard = buildBoard(as);
 //					System.out.println(solutionBoard);
-					int conflicts = solutionBoard.getNumberOfAttackingPairs();
+//					int conflicts = solutionBoard.getNumberOfAttackingPairs();
 //					System.out.println(conflicts + " conflictos detectados");
 //					System.out.println(as);
 //					System.out.println(stepCounter.getResults() + "\n");
 					long t2 = System.nanoTime();
+					time += t2 - t1;
 					resueltos++;
 				}
 			}
-			System.out.printf("Limite: %s -- Se han resuelto %s tableros en %.6s segundos\n", i, resueltos, 0 / 1E9);
+			System.out.printf("Limite: %s -- Se han resuelto %s/100 tableros en %.6s segundos\n", i, resueltos, time / 1E9);
 		}
 
 	}

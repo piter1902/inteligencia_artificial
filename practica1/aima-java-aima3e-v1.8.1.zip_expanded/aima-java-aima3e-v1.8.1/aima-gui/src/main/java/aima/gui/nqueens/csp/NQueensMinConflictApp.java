@@ -29,13 +29,13 @@ public class NQueensMinConflictApp {
 			Assignment as = mcs.solve(csp.copyDomains());
 			long t2 = System.nanoTime();
 			if (as != null) {
-				NQueensBoard solutionBoard = buildBoard(as);
-				System.out.println(solutionBoard);
-				int conflicts = solutionBoard.getNumberOfAttackingPairs();
-				System.out.println(conflicts + " conflictos detectados");
 				System.out.println(as);
-				System.out.println(stepCounter.getResults() + "\n");
-				System.out.printf("Se han resuelto 1 tablero en %.6s segundos\n", (t2 - t1) / 1E9);
+				NQueensBoard solutionBoard = buildBoard(as);	
+				System.out.printf("Time to solve = %.5s segundos\n\n", (t2 - t1) / 1E9);
+				System.out.println("SOLUCION:\n" + solutionBoard);
+				int conflicts = solutionBoard.getNumberOfAttackingPairs();
+//				System.out.println(conflicts + " conflictos detectados");
+//				System.out.println(stepCounter.getResults() + "\n");
 				break; // En el momento que se resuelva 1 tablero -> Fin de la ejecucion
 			}
 		} while (true);
