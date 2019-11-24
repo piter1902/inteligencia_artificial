@@ -78,7 +78,7 @@
     (assert (nodo (estado ?nuevoestado)
     (camino ?movimientos (implode$ ?nuevoestado))
     (coste (+ ?coste 1))
-    (heuristica (heuristica ?rmi ?rci)))))
+    (heuristica (heuristica (create$ ?mi ?mf) (create$ ?ci ?cf) )))))
 
 ;-------------------------------------------------------------
 ; MODULO RESTRICCIONES
@@ -98,10 +98,30 @@
    (retract ?nodo2))
 
 ;; Eliminamos nodos con más caníbales que misioneros en una orilla (COMPLETAR)
-(defrule RESTRICCIONES::eliminar-prohibidos
+; (defrule RESTRICCIONES::eliminar-prohibidos
+;     (declare (auto-focus TRUE))
+;     ?nodo <- (nodo (estado $?mi s $?ci ?l&:i|f $?md s $?cd ))
+;     (test (or (and (< (length $?mi) (length $?ci)) (neq (length $?mi) 0)) (and (< (length $?md) (length $?cd)) (neq (length $?md) 0)) ))
+;     =>
+;     (bind $?nuevoestado (create$ $?mi s $?ci ?l $?md s $?cd ))
+;     (printout t "El estado " (implode$ $?nuevoestado) " es peligroso" crlf)
+;     (retract ?nodo)
+;     )
+
+(defrule RESTRICCIONES::eliminar-prohibidos-i
     (declare (auto-focus TRUE))
     ?nodo <- (nodo (estado $?mi s $?ci ?l&:i|f $?md s $?cd ))
-    (test (or (and (< (length $?mi) (length $?ci)) (neq (length $?mi) 0)) (and (< (length $?md) (length $?cd)) (neq (length $?md) 0)) ))
+    (test (and (< (length $?mi) (length $?ci)) (neq (length $?mi) 0)) )
+    =>
+    (bind $?nuevoestado (create$ $?mi s $?ci ?l $?md s $?cd ))
+    (printout t "El estado " (implode$ $?nuevoestado) " es peligroso" crlf)
+    (retract ?nodo)
+    )
+
+(defrule RESTRICCIONES::eliminar-prohibidos-f
+    (declare (auto-focus TRUE))
+    ?nodo <- (nodo (estado $?mi s $?ci ?l&:i|f $?md s $?cd ))
+    (test (and (< (length $?md) (length $?cd)) (neq (length $?md) 0)) )
     =>
     (bind $?nuevoestado (create$ $?mi s $?ci ?l $?md s $?cd ))
     (printout t "El estado " (implode$ $?nuevoestado) " es peligroso" crlf)
