@@ -78,7 +78,7 @@
     (assert (nodo (estado ?nuevoestado)
     (camino ?movimientos (implode$ ?nuevoestado))
     (coste (+ ?coste 1))
-    (heuristica (heuristica (create$ ?mi ?mf) (create$ ?ci ?cf) )))))
+    (heuristica (heuristica (create$ ?mi ?mf) ?ci )))))
 
 ;-------------------------------------------------------------
 ; MODULO RESTRICCIONES
@@ -98,35 +98,19 @@
    (retract ?nodo2))
 
 ;; Eliminamos nodos con más caníbales que misioneros en una orilla (COMPLETAR)
-; (defrule RESTRICCIONES::eliminar-prohibidos
-;     (declare (auto-focus TRUE))
-;     ?nodo <- (nodo (estado $?mi s $?ci ?l&:i|f $?md s $?cd ))
-;     (test (or (and (< (length $?mi) (length $?ci)) (neq (length $?mi) 0)) (and (< (length $?md) (length $?cd)) (neq (length $?md) 0)) ))
-;     =>
-;     (bind $?nuevoestado (create$ $?mi s $?ci ?l $?md s $?cd ))
-;     (printout t "El estado " (implode$ $?nuevoestado) " es peligroso" crlf)
-;     (retract ?nodo)
-;     )
-
 (defrule RESTRICCIONES::eliminar-prohibidos-i
-    (declare (auto-focus TRUE))
-    ?nodo <- (nodo (estado $?mi s $?ci ?l&:i|f $?md s $?cd ))
-    (test (and (< (length $?mi) (length $?ci)) (neq (length $?mi) 0)) )
+	(declare (auto-focus TRUE))
+	?nodo<-(nodo (estado $?mi s $?ci ?B&:(or (eq ?B i) (eq ?B f))  $?mf s $?cf))
+	(test (and (< (length $?mf) (length $?cf)) (> (length $?mf) 0)))
     =>
-    (bind $?nuevoestado (create$ $?mi s $?ci ?l $?md s $?cd ))
-    (printout t "El estado " (implode$ $?nuevoestado) " es peligroso" crlf)
-    (retract ?nodo)
-    )
+	(retract ?nodo))
 
 (defrule RESTRICCIONES::eliminar-prohibidos-f
-    (declare (auto-focus TRUE))
-    ?nodo <- (nodo (estado $?mi s $?ci ?l&:i|f $?md s $?cd ))
-    (test (and (< (length $?md) (length $?cd)) (neq (length $?md) 0)) )
+	(declare (auto-focus TRUE))
+	?nodo<-(nodo (estado $?mi s $?ci ?B&:(or (eq ?B i) (eq ?B f))  $?mf s $?cf))
+	(test (and (< (length $?mi) (length $?ci)) (> (length $?mi) 0)))
     =>
-    (bind $?nuevoestado (create$ $?mi s $?ci ?l $?md s $?cd ))
-    (printout t "El estado " (implode$ $?nuevoestado) " es peligroso" crlf)
-    (retract ?nodo)
-    )
+	(retract ?nodo))
 
 ;-------------------------------------------------------------
 ; MODULO SOLUCION
@@ -163,7 +147,7 @@
 ;;; (load "misioneros.clp")
 ;;; (problema 3 3 2)
 (deffunction MAIN::problema (?m ?c ?b)
-    ;(reset)
+    (reset)
     (bind ?*misioneros* ?m)
     (bind ?*canibales* ?c)
     (bind ?*capacidad* ?b)
@@ -177,5 +161,5 @@
     (camino (implode$ ?*estado-inicial*))
     (heuristica (heuristica ?*ci* ?*mi*))
     ))
-    ;(run)
+    (run)
 )
