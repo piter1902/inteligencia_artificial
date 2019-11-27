@@ -5,14 +5,14 @@
     <AdditionalProperties />
     <Variables>
       <Variable name="A" type="finiteStates" role="chance">
-        <Coordinates x="421" y="140" />
+        <Coordinates x="420" y="131" />
         <States>
           <State name="no" />
           <State name="sí" />
         </States>
       </Variable>
       <Variable name="B" type="finiteStates" role="chance">
-        <Coordinates x="818" y="313" />
+        <Coordinates x="890" y="344" />
         <States>
           <State name="no" />
           <State name="sí" />
@@ -47,7 +47,7 @@
         </States>
       </Variable>
       <Variable name="D" type="finiteStates" role="chance">
-        <Coordinates x="692" y="463" />
+        <Coordinates x="710" y="471" />
         <States>
           <State name="no" />
           <State name="sí" />
@@ -159,4 +159,13 @@
       <SelectedAnalysisType>UNICRITERION</SelectedAnalysisType>
     </MulticriteriaOptions>
   </InferenceOptions>
+  <Evidence>
+    <EvidenceCase />
+    <EvidenceCase>
+      <Finding variable="F" state="no" />
+      <Finding variable="T" state="no" />
+      <Finding variable="X" state="sí" />
+      <Finding variable="D" state="sí" />
+    </EvidenceCase>
+  </Evidence>
 </ProbModelXML>
