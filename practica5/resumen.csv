@@ -1,0 +1,50 @@
+Modelo;Acierto entrenamiento %;Acierto test %
+Perceptron de un solo nivel con salida 'sigmoidal';90;90,68
+Perceptron de un solo nivel con salida 'softmax';90,16;90,82
+;;
+Perceptron con capa oculta (10) 'sigmoidal' y salida 'sigmoidal';82,59;83,36
+;;
+Perceptron con capa oculta (10) 'relu' y salida 'sigmoidal';9,87;9,8
+Perceptron con capa oculta (10) 'relu' y salida 'softmax';91,57;91,74
+Perceptron con capa oculta (30) 'relu' y salida 'softmax';92,59;92,87
+Perceptron con capa oculta (50) 'relu' y salida 'softmax';92,93;92,89
+Perceptron con capa oculta (70) 'relu' y salida 'softmax';93,28;93,32
+Perceptron con capa oculta (90) 'relu' y salida 'softmax';93,22;93,23
+Perceptron con capa oculta (100) 'relu' y salida 'softmax';93,34;93,38
+;;
+Perceptron con 2 capa oculta (10, 10) 'relu,relu' y salida 'softmax';92;92,04
+Perceptron con 2 capa oculta (10, 30) 'relu,relu' y salida 'softmax';92,15;92,12
+Perceptron con 2 capa oculta (10, 50) 'relu,relu' y salida 'softmax';92,31;92,46
+Perceptron con 2 capa oculta (10, 70) 'relu,relu' y salida 'softmax';92,44;92,64
+Perceptron con 2 capa oculta (10, 90) 'relu,relu' y salida 'softmax';92,31;92,55
+Perceptron con 2 capa oculta (10, 100) 'relu,relu' y salida 'softmax';92,3;92,46
+;;
+Perceptron con 2 capa oculta (30, 10) 'relu,relu' y salida 'softmax';93,95;93,74
+Perceptron con 2 capa oculta (30, 30) 'relu,relu' y salida 'softmax';93,98;93,84
+Perceptron con 2 capa oculta (30, 50) 'relu,relu' y salida 'softmax';93,84;94,03
+Perceptron con 2 capa oculta (30, 70) 'relu,relu' y salida 'softmax';93,81;93,78
+Perceptron con 2 capa oculta (30, 90) 'relu,relu' y salida 'softmax';93,78;93,7
+Perceptron con 2 capa oculta (30, 100) 'relu,relu' y salida 'softmax';94,04;94,05
+;;
+Perceptron con 2 capa oculta (50, 10) 'relu,relu' y salida 'softmax';93,68;93,62
+Perceptron con 2 capa oculta (50, 30) 'relu,relu' y salida 'softmax';94,21;94,16
+Perceptron con 2 capa oculta (50, 50) 'relu,relu' y salida 'softmax';94,24;93,99
+Perceptron con 2 capa oculta (50, 70) 'relu,relu' y salida 'softmax';94,13;93,83
+Perceptron con 2 capa oculta (50, 90) 'relu,relu' y salida 'softmax';94,11;94,07
+Perceptron con 2 capa oculta (50, 100) 'relu,relu' y salida 'softmax';94,6;94,45
+;;
+Perceptron con 2 capa oculta (70, 10) 'relu,relu' y salida 'softmax';94,27;94,09
+Perceptron con 2 capa oculta (70, 30) 'relu,relu' y salida 'softmax';94,01;93,99
+Perceptron con 2 capa oculta (70, 50) 'relu,relu' y salida 'softmax';94,53;94,28
+Perceptron con 2 capa oculta (70, 70) 'relu,relu' y salida 'softmax';94,55;94,36
+Perceptron con 2 capa oculta (70, 90) 'relu,relu' y salida 'softmax';94,54;94,49
+Perceptron con 2 capa oculta (70, 100) 'relu,relu' y salida 'softmax';94,55;94,44
+;;
+Perceptron con 2 capa oculta (90, 10) 'relu,relu' y salida 'softmax';94,04;93,8
+Perceptron con 2 capa oculta (90, 30) 'relu,relu' y salida 'softmax';94,84;94,65
+Perceptron con 2 capa oculta (90, 50) 'relu,relu' y salida 'softmax';94,58;94,46
+Perceptron con 2 capa oculta (90, 70) 'relu,relu' y salida 'softmax';94,83;94,64
+Perceptron con 2 capa oculta (90, 90) 'relu,relu' y salida 'softmax';94,63;94,37
+Perceptron con 2 capa oculta (90, 100) 'relu,relu' y salida 'softmax';94,84;94,69
+;;
+Perceptron con 2 capa oculta (100, 100) 'relu,relu' y salida 'softmax';94,72;94,65
