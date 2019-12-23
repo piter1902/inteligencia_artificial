@@ -42,7 +42,7 @@ x_train = x_train[p]
 y_train = y_train[p]
 
 # Función para parar cuando ya no mejora el error de validacion
-earlystop=EarlyStopping(monitor='val_loss', patience=3, 
+earlystop=EarlyStopping(monitor='val_loss', patience=5, 
                         verbose=1, mode='auto')
 
 t_total0 = time.time()
@@ -51,14 +51,14 @@ t_total0 = time.time()
 #    for j in range(100, 110, 20):
 model = Sequential()
 model.add(Dense(100, activation='relu', input_shape=(num_pixels,)))
-#model.add(Dropout(0.2))
+model.add(Dropout(0.2))
 model.add(Dense(100, activation='relu'))
-#model.add(Dropout(0.2))
+model.add(Dropout(0.2))
 model.add(Dense(10, activation='softmax'))
 # Con dropout
 model.compile(
-              #loss='categorical_crossentropy',
-              loss='mean_squared_error',
+              loss='categorical_crossentropy',
+              #loss='mean_squared_error',
               #optimizer=SGD(),
               optimizer='RMSProp',
               metrics=['accuracy'])
@@ -68,9 +68,9 @@ model.summary()
 #print('Training the NN....')
 t0 = time.time()
 history = model.fit(x_train, y_train,
-                    #batch_size=128,
-                    batch_size=16,      # Batch de tamaño pequeño
-                    epochs=20,
+                    batch_size=128,
+                    #batch_size=16,      # Batch de tamaño pequeño
+                    epochs=30,
                     validation_split=0.1,
                     #callbacks=[earlystop],
                     verbose=verbose)
