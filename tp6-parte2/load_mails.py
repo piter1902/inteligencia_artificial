@@ -18,7 +18,7 @@ from sklearn.utils import shuffle
 from sklearn import metrics
 
 # importo mi fichero
-#from kfold import kfoldMultinomial
+from kfold import kfold
 
 ######################################################
 # Functions for loading mails
@@ -70,18 +70,19 @@ mails, y = load_enron_folders([1,2,3,4,5])
 print("--------------Loading Test data----------------")
 mails_test, y_test = load_enron_folders([6])
 
-#print("-----Example of obtaining BOWs from emails-----")
-#vectorizer  = CountVectorizer(ngram_range=(1, 1))  # Initialize BOW structure
-#X = vectorizer.fit_transform(mails)                # BOW with word counts
-#X_test = vectorizer.transform(mails_test)          # BOW with word counts
+print("-----Example of obtaining BOWs from emails-----")
+vectorizer  = CountVectorizer(ngram_range=(1, 1))     # Initialize BOW structure
+X = vectorizer.fit_transform(mails)                   # BOW with word counts
+X_test = vectorizer.transform(mails_test)         # BOW with word counts
 #print("A Bag of Words is represented as a sparse matrix:" )
 #print(X)
 
 # Entrenamos la red bayesiana
 print("--------------Training NB----------------")
-clasifier = kfoldMultinomial(5, mails, y)
+clasifier = kfold('bernoulli', 5, X, y)
 # Obtenemos los resultados para los datos de test
-pred = clasifier.predict(mails_test)
+print("--------------Comprobando con los datos de test----------------")
+pred = clasifier.predict(X_test)
 acc  = metrics.accuracy_score(y_test, pred)
 print("La precision es: %s" % str(acc))
 # Imprimimos la matriz de confusion
