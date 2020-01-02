@@ -205,7 +205,7 @@ def kfoldBernoulli_laplace(laplace, k, examples, examples_solution):
     f1 = f1/k
     accuracy = accuracy/k
     print("-------------------------------------")
-    print("Multinomial Naive Bayes")
+    print("Bernoulli Naive Bayes")
     print("Laplace value: %s" % str(laplace))
     print("ACCURACY: %s" % str(accuracy))
     print("F1 SCORE: %s" % str(f1))

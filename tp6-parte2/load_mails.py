@@ -93,13 +93,18 @@ X_test = vectorizer.transform(mails_test)         # BOW with word counts
 
 # Entrenamos la red bayesiana
 print("--------------Training NB----------------")
-learner = 'bernoulli'
+#learner = 'bernoulli'
+learner = 'multinomial'
 # Entrenamiento buscando el mejor parametro de Laplace
 clasifier = kfold(learner, 5, X, y)
 
 # --- PRUEBAS LAPLACE --- 
 # Probamos valores < 1
 #i = 0
+#clasifier = kfold_laplace(learner, 5, X, y, i)
+#i = 0.1
+#clasifier = kfold_laplace(learner, 5, X, y, i)
+#i = 0.3
 #while i < float(1):
 #    clasifier = kfold_laplace(learner, 5, X, y, i)
 #    i += 0.3
@@ -112,6 +117,6 @@ print("--------------Comprobando con los datos de test----------------")
 pred = clasifier.predict(X_test)
 acc  = metrics.accuracy_score(y_test, pred)
 print("La precision es: %s" % str(acc))
-# Mostramos los resultados de forma grafica (matriz de confusion, curvas)
+# Mostramos los resultados de forma grafica (matriz de confusion, curva prec-recall)
 show_results(clasifier, pred, y_test, X_test)
 
