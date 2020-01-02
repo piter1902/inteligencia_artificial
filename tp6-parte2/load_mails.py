@@ -17,8 +17,9 @@ from sklearn.naive_bayes import BernoulliNB
 from sklearn.utils import shuffle
 from sklearn import metrics
 
-# importo mi fichero
-from kfold import kfold
+# importo mis ficheros
+from kfold import kfold, kfold_laplace
+import P5_utils
 
 ######################################################
 # Functions for loading mails
@@ -58,6 +59,19 @@ def load_enron_folders(datasets):
     return mails, labels
 
 
+def show_results(clasif, y_pred, y_real, X_test):
+    print("Matriz de confusion")
+    cf_mtx = metrics.confusion_matrix(y_real, y_pred)
+    print(cf_mtx)
+    print("Curva Precision - Recall")
+    prob = clasif.predict_proba(X_test)
+    prec, rec, thr = metrics.precision_recall_curve(y_real, prob[:,1])
+    plt.plot(rec, prec)
+    plt.xlabel("Recall")
+    plt.ylabel("Precision")
+    plt.show()
+    
+
 ######################################################
 # Main
 ######################################################
@@ -79,12 +93,25 @@ X_test = vectorizer.transform(mails_test)         # BOW with word counts
 
 # Entrenamos la red bayesiana
 print("--------------Training NB----------------")
-clasifier = kfold('bernoulli', 5, X, y)
+learner = 'bernoulli'
+# Entrenamiento buscando el mejor parametro de Laplace
+clasifier = kfold(learner, 5, X, y)
+
+# --- PRUEBAS LAPLACE --- 
+# Probamos valores < 1
+#i = 0
+#while i < float(1):
+#    clasifier = kfold_laplace(learner, 5, X, y, i)
+#    i += 0.3
+## Probamos valores {1, 3, 5, 7, 9 ...}
+#for i in [1,3,5,7,9,15,20,35,50,75,100]:
+#    clasifier = kfold_laplace(learner, 5, X, y, i)
+
 # Obtenemos los resultados para los datos de test
 print("--------------Comprobando con los datos de test----------------")
 pred = clasifier.predict(X_test)
 acc  = metrics.accuracy_score(y_test, pred)
 print("La precision es: %s" % str(acc))
-# Imprimimos la matriz de confusion
-metrics.confusion_matrix(y_test, pred)
+# Mostramos los resultados de forma grafica (matriz de confusion, curvas)
+show_results(clasifier, pred, y_test, X_test)
 
