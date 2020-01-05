@@ -72,9 +72,9 @@ def kfoldMultinomial(k, examples, examples_solution):
         f1 = f1/k
         accuracy = accuracy/k
         if accuracy > best_accuracy:
-            best_size = size
             best_accuracy = accuracy
         if f1 > best_f1:
+            best_size = size
             best_f1 = f1
         size = size + 0.1
     print("-------------------------------------")
@@ -120,9 +120,9 @@ def kfoldBernoulli(k, examples, examples_solution):
         f1 = f1/k
         accuracy = accuracy/k
         if accuracy > best_accuracy:
-            best_size = size
             best_accuracy = accuracy
         if f1 > best_f1:
+            best_size = size
             best_f1 = f1
         size = size + 0.1
     print("-------------------------------------")

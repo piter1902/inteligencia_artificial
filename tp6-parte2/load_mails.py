@@ -19,7 +19,6 @@ from sklearn import metrics
 
 # importo mis ficheros
 from kfold import kfold, kfold_laplace
-import P5_utils
 
 ######################################################
 # Functions for loading mails
@@ -69,8 +68,15 @@ def show_results(clasif, y_pred, y_real, X_test):
     plt.plot(rec, prec)
     plt.xlabel("Recall")
     plt.ylabel("Precision")
+    # Limites de la representacion
+    plt.xlim([0.85,1])
+    plt.ylim([0.85,1])
     plt.show()
-    
+
+def prueba_Laplace(learner, X, y):
+    # --- PRUEBAS LAPLACE --- 
+    for i in [0,0.01,0.1,0.3,0.6,0.9,1,3,5,7,9,15,20,35,50,75,100]:
+        kfold_laplace(learner, 5, X, y, i)
 
 ######################################################
 # Main
@@ -87,36 +93,30 @@ mails_test, y_test = load_enron_folders([6])
 print("-----Example of obtaining BOWs from emails-----")
 vectorizer  = CountVectorizer(ngram_range=(1, 1))     # Initialize BOW structure
 X = vectorizer.fit_transform(mails)                   # BOW with word counts
-X_test = vectorizer.transform(mails_test)         # BOW with word counts
+X_test = vectorizer.transform(mails_test)             # BOW with word counts
 #print("A Bag of Words is represented as a sparse matrix:" )
 #print(X)
 
 # Entrenamos la red bayesiana
 print("--------------Training NB----------------")
-#learner = 'bernoulli'
-learner = 'multinomial'
-# Entrenamiento buscando el mejor parametro de Laplace
-clasifier = kfold(learner, 5, X, y)
+# method = {laplace, otro}
+method = 'laplace'
 
-# --- PRUEBAS LAPLACE --- 
-# Probamos valores < 1
-#i = 0
-#clasifier = kfold_laplace(learner, 5, X, y, i)
-#i = 0.1
-#clasifier = kfold_laplace(learner, 5, X, y, i)
-#i = 0.3
-#while i < float(1):
-#    clasifier = kfold_laplace(learner, 5, X, y, i)
-#    i += 0.3
-## Probamos valores {1, 3, 5, 7, 9 ...}
-#for i in [1,3,5,7,9,15,20,35,50,75,100]:
-#    clasifier = kfold_laplace(learner, 5, X, y, i)
+# learner = {bernoulli, multinomial}
+learner = 'bernoulli'
 
-# Obtenemos los resultados para los datos de test
-print("--------------Comprobando con los datos de test----------------")
-pred = clasifier.predict(X_test)
-acc  = metrics.accuracy_score(y_test, pred)
-print("La precision es: %s" % str(acc))
-# Mostramos los resultados de forma grafica (matriz de confusion, curva prec-recall)
-show_results(clasifier, pred, y_test, X_test)
+if str(method).lower() == 'laplace':
+    # Ejecutando pruebas con diferentes valores del suavizado de Laplace
+    prueba_Laplace(learner, X, y)
+else:
+    # Ejecutando entrenamiento para la busqueda del mejor valor del parametro 
+    #   de Laplace.
+    clasifier = kfold(learner, 5, X, y)
+    # Obtenemos los resultados para los datos de test
+    print("--------------Comprobando con los datos de test----------------")
+    pred = clasifier.predict(X_test)
+    acc  = metrics.accuracy_score(y_test, pred)
+    print("La precision es: %s" % str(acc))
+    # Mostramos los resultados de forma grafica (matriz de confusion, curva prec-recall)
+    show_results(clasifier, pred, y_test, X_test)
 
