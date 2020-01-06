@@ -69,8 +69,8 @@ def show_results(clasif, y_pred, y_real, X_test):
     plt.xlabel("Recall")
     plt.ylabel("Precision")
     # Limites de la representacion
-    plt.xlim([0.85,1])
-    plt.ylim([0.85,1])
+#    plt.xlim([0.85,1])
+#    plt.ylim([0.85,1])
     plt.show()
 
 def prueba_Laplace(learner, X, y):
@@ -100,7 +100,7 @@ X_test = vectorizer.transform(mails_test)             # BOW with word counts
 # Entrenamos la red bayesiana
 print("--------------Training NB----------------")
 # method = {laplace, otro}
-method = 'laplace'
+method = 'otro'
 
 # learner = {bernoulli, multinomial}
 learner = 'bernoulli'
