@@ -2,4 +2,4 @@
 
 # Para limpiar los directorios __pycache__
 
-find . -regex __pycache__ -type d -exec rm -rf {} \;
+find . -maxdepth 5  -regex __pycache__ -type d -exec rm -rf {} \;
